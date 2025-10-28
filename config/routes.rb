@@ -5,6 +5,23 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # Admin Panel Routes
+  namespace :admin do
+    get 'login', to: 'sessions#new'
+    post 'login', to: 'sessions#create'
+    delete 'logout', to: 'sessions#destroy'
+    
+    get 'dashboard', to: 'dashboard#index'
+    root to: 'dashboard#index'
+    
+    resources :users do
+      member do
+        patch :block
+        patch :unblock
+      end
+    end
+  end
+
   # API routes
   namespace :api do
     namespace :v1 do
@@ -18,6 +35,9 @@ Rails.application.routes.draw do
         post 'member/login', to: 'members#login'
         post 'member/signup', to: 'members#signup'
       end
+
+      # Public plans listing
+      resources :plans, only: [:index]
 
       # Courses routes (members only)
       resources :courses, only: [:index] do
@@ -55,6 +75,9 @@ Rails.application.routes.draw do
 
         # Sales management
         resources :sales, only: [:index, :create, :update, :destroy]
+
+        # Plans management
+        resources :plans
       end
     end
   end

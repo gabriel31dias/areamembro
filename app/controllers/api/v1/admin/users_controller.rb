@@ -174,6 +174,8 @@ module Api
         end
 
         def user_detail_response(user)
+          current_plan = user.current_plan
+          
           {
             id: user.id,
             name: user.name,
@@ -183,6 +185,11 @@ module Api
             subscription_status: user.subscription_status,
             blocked_at: user.blocked_at,
             created_at: user.created_at,
+            current_plan: current_plan ? {
+              id: current_plan.id,
+              name: current_plan.name,
+              expires_at: user.user_plans.active.first&.expires_at
+            } : nil,
             stats: {
               total_courses: user.course_progresses.count,
               completed_courses: user.course_progresses.where('percentage = 100').count,

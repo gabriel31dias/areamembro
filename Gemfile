@@ -1,4 +1,5 @@
 source "https://rubygems.org"
+gem 'kaminari'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.1.0"
@@ -22,6 +23,9 @@ gem "bcrypt", "~> 3.1.7"
 
 # JWT for token authentication
 gem "jwt"
+
+# Pagination
+gem "kaminari"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]

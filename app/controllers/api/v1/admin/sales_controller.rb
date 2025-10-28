@@ -92,11 +92,11 @@ module Api
         end
 
         def sale_params
-          params.permit(:amount, :payment_method, :status, :notes)
+          params.permit(:amount, :payment_method, :status, :notes, :plan_id)
         end
 
         def sale_update_params
-          params.permit(:amount, :payment_method, :status, :notes)
+          params.permit(:amount, :payment_method, :status, :notes, :plan_id)
         end
 
         def sale_response(sale)
@@ -108,6 +108,11 @@ module Api
               email: sale.user.email,
               subscription_status: sale.user.subscription_status
             },
+            plan: sale.plan ? {
+              id: sale.plan.id,
+              name: sale.plan.name,
+              price: sale.plan.price
+            } : nil,
             amount: sale.amount,
             payment_method: sale.payment_method,
             status: sale.status,

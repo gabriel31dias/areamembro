@@ -1,0 +1,153 @@
+<div class="top-bar">
+  <div>
+    <%= link_to admin_users_path, style: "color: #00b4d8; text-decoration: none; font-size: 0.875rem; display: inline-block; margin-bottom: 0.5rem;" do %>
+      ← Voltar para usuários
+    <% end %>
+    <h2 style="font-size: 1.5rem; font-weight: 700;">Detalhes do Usuário</h2>
+  </div>
+  <div style="display: flex; gap: 0.75rem;">
+    <%= link_to edit_admin_user_path(@user), class: "btn btn-primary btn-sm" do %>
+      Editar
+    <% end %>
+    <% if @user.status == 'active' %>
+      <%= link_to block_admin_user_path(@user), method: :patch, data: { turbo_method: :patch, turbo_confirm: 'Tem certeza que deseja bloquear este usuário?' }, class: "btn btn-danger btn-sm" do %>
+        Bloquear
+      <% end %>
+    <% else %>
+      <%= link_to unblock_admin_user_path(@user), method: :patch, data: { turbo_method: :patch }, class: "btn btn-success btn-sm" do %>
+        Desbloquear
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<!-- User Info Card -->
+<div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
+  <div style="display: flex; align-items: start; gap: 2rem; flex-wrap: wrap;">
+    <div class="user-card-avatar" style="width: 100px; height: 100px; font-size: 2.5rem;">
+      <%= @user.name&.first&.upcase || @user.email.first.upcase %>
+    </div>
+    
+    <div style="flex: 1;">
+      <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">
+        <%= @user.name || 'Sem nome' %>
+      </h3>
+      <p style="color: #718096; margin-bottom: 1rem;"><%= @user.email %></p>
+      
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <span class="badge badge-info"><%= @user.role %></span>
+        <span class="badge badge-<%= @user.status == 'active' ? 'success' : 'danger' %>">
+          <%= @user.status %>
+        </span>
+        <span class="badge badge-<%= @user.subscription_status == 'subscriber' ? 'warning' : 'info' %>">
+          <%= @user.subscription_status %>
+        </span>
+      </div>
+
+      <% if @user.current_plan %>
+        <div style="margin-top: 1rem; padding: 1rem; background: #fef5e7; border-radius: 8px; border-left: 4px solid #d97706;">
+          <div style="font-weight: 600; color: #92400e;">Plano Ativo</div>
+          <div style="color: #78350f; margin-top: 0.25rem;">
+            <%= @user.current_plan.name %> - 
+            Expira em <%= @user.user_plans.active.first&.expires_at&.strftime('%d/%m/%Y') %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Stats Grid -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-label">Total de Cursos</div>
+    <div class="stat-value"><%= @user.course_progresses.count %></div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-label">Cursos Completos</div>
+    <div class="stat-value"><%= @user.course_progresses.where('percentage = 100').count %></div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-label">Total em Vendas</div>
+    <div class="stat-value">R$ <%= number_to_currency(@user.sales.completed.sum(:amount), unit: '', precision: 2) %></div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-label">Vendas Realizadas</div>
+    <div class="stat-value"><%= @user.sales.completed.count %></div>
+  </div>
+</div>
+
+<!-- Sales History -->
+<div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
+  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Histórico de Vendas</h3>
+  
+  <% if @sales.any? %>
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="border-bottom: 2px solid #e2e8f0;">
+            <th style="padding: 0.75rem; text-align: left; font-weight: 600; color: #718096; font-size: 0.875rem;">Data</th>
+            <th style="padding: 0.75rem; text-align: left; font-weight: 600; color: #718096; font-size: 0.875rem;">Plano</th>
+            <th style="padding: 0.75rem; text-align: left; font-weight: 600; color: #718096; font-size: 0.875rem;">Valor</th>
+            <th style="padding: 0.75rem; text-align: left; font-weight: 600; color: #718096; font-size: 0.875rem;">Método</th>
+            <th style="padding: 0.75rem; text-align: left; font-weight: 600; color: #718096; font-size: 0.875rem;">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @sales.each do |sale| %>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 0.75rem; font-size: 0.875rem;">
+                <%= sale.created_at.strftime('%d/%m/%Y %H:%M') %>
+              </td>
+              <td style="padding: 0.75rem; font-size: 0.875rem;">
+                <%= sale.plan&.name || '-' %>
+              </td>
+              <td style="padding: 0.75rem; font-weight: 700; color: #16a34a;">
+                R$ <%= number_to_currency(sale.amount, unit: '', precision: 2) %>
+              </td>
+              <td style="padding: 0.75rem; font-size: 0.875rem;">
+                <%= sale.payment_method || '-' %>
+              </td>
+              <td style="padding: 0.75rem;">
+                <span class="badge badge-<%= sale.status == 'completed' ? 'success' : sale.status == 'pending' ? 'warning' : 'danger' %>">
+                  <%= sale.status %>
+                </span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p style="text-align: center; color: #718096; padding: 2rem;">Nenhuma venda encontrada</p>
+  <% end %>
+</div>
+
+<!-- Course Progress -->
+<div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Progresso nos Cursos</h3>
+  
+  <% if @course_progresses.any? %>
+    <div style="display: grid; gap: 1rem;">
+      <% @course_progresses.each do |progress| %>
+        <div style="padding: 1rem; background: #f7fafc; border-radius: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+            <div style="font-weight: 600;"><%= progress.course.title %></div>
+            <div style="font-weight: 700; color: #667eea;"><%= progress.percentage.to_i %>%</div>
+          </div>
+          <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%); height: 100%; width: <%= progress.percentage %>%; transition: width 0.3s;"></div>
+          </div>
+          <div style="font-size: 0.75rem; color: #718096; margin-top: 0.5rem;">
+            <%= progress.completed_lessons %> de <%= progress.course.total_lessons %> aulas completas
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p style="text-align: center; color: #718096; padding: 2rem;">Nenhum curso iniciado</p>
+  <% end %>
+</div>

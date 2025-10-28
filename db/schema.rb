@@ -95,17 +95,44 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_28_023557) do
     t.index ["course_id"], name: "index_lessons_on_course_id"
   end
 
+  create_table "plans", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "duration_days", null: false
+    t.json "features"
+    t.string "name", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_plans_on_active"
+  end
+
   create_table "sales", force: :cascade do |t|
     t.decimal "amount", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.text "notes"
     t.string "payment_method"
+    t.integer "plan_id"
     t.string "status", default: "pending"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["created_at"], name: "index_sales_on_created_at"
+    t.index ["plan_id"], name: "index_sales_on_plan_id"
     t.index ["status"], name: "index_sales_on_status"
     t.index ["user_id"], name: "index_sales_on_user_id"
+  end
+
+  create_table "user_plans", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "expires_at"
+    t.integer "plan_id", null: false
+    t.string "status", default: "active"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["expires_at"], name: "index_user_plans_on_expires_at"
+    t.index ["plan_id"], name: "index_user_plans_on_plan_id"
+    t.index ["user_id", "status"], name: "index_user_plans_on_user_id_and_status"
+    t.index ["user_id"], name: "index_user_plans_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -131,5 +158,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_28_023557) do
   add_foreign_key "lesson_progresses", "lessons"
   add_foreign_key "lesson_progresses", "users"
   add_foreign_key "lessons", "courses"
+  add_foreign_key "sales", "plans"
   add_foreign_key "sales", "users"
+  add_foreign_key "user_plans", "plans"
+  add_foreign_key "user_plans", "users"
 end

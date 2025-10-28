@@ -4,6 +4,8 @@ class User < ApplicationRecord
   has_many :course_progresses, dependent: :destroy
   has_many :courses, through: :course_progresses
   has_many :sales, dependent: :destroy
+  has_many :user_plans, dependent: :destroy
+  has_many :plans, through: :user_plans
   
   validates :email, presence: true, uniqueness: true
   validates :role, presence: true, inclusion: { in: %w[admin user member] }
@@ -25,5 +27,13 @@ class User < ApplicationRecord
 
   def make_subscriber!
     update(subscription_status: 'subscriber')
+  end
+
+  def current_plan
+    user_plans.active.first&.plan
+  end
+
+  def has_active_plan?
+    user_plans.active.exists?
   end
 end

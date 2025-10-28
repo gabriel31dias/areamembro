@@ -1,0 +1,9 @@
+<%# Link to the "Last" page
+  - available local variables
+    url:           url to the last page
+    current_page:  a page object for the currently displayed page
+    total_pages:   total number of pages
+    per_page:      number of items to fetch per page
+    remote:        data-remote
+-%>
+<%= link_to_unless current_page.last?, 'Última »', url, style: "padding: 0.5rem 0.875rem; background: white; color: #2d3748; border: 2px solid #e2e8f0; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: all 0.2s;", onmouseover: "this.style.borderColor='#667eea'; this.style.color='#667eea'", onmouseout: "this.style.borderColor='#e2e8f0'; this.style.color='#2d3748'" %>
