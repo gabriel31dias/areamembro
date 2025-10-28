@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_secure_password
+  has_secure_password validations: false
   
   has_many :course_progresses, dependent: :destroy
   has_many :courses, through: :course_progresses
@@ -11,6 +11,7 @@ class User < ApplicationRecord
   validates :role, presence: true, inclusion: { in: %w[admin user member] }
   validates :status, inclusion: { in: %w[active blocked] }
   validates :subscription_status, inclusion: { in: %w[free subscriber] }
+  validates :password, length: { minimum: 6 }, if: -> { password.present? }
 
   scope :active, -> { where(status: 'active') }
   scope :blocked, -> { where(status: 'blocked') }

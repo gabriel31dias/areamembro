@@ -1,0 +1,117 @@
+<div style="max-width: 1000px;">
+  <%= form_with model: @member, url: panel_members_path, local: true do |f| %>
+    <% if @member.errors.any? %>
+      <div style="background: #fee2e2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+        <strong style="color: #991b1b; font-weight: 600;"><%= pluralize(@member.errors.count, "erro") %>:</strong>
+        <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #991b1b; font-size: 0.875rem;">
+          <% @member.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Informações Pessoais -->
+    <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); margin-bottom: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #f1f5f9;">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); display: flex; align-items: center; justify-content: center;">
+          <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+        </div>
+        <div>
+          <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem;">Informações Pessoais</h2>
+          <p style="color: #64748b; font-size: 0.875rem;">Dados básicos do membro</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div style="grid-column: 1 / -1;">
+          <%= f.label :name, "Nome Completo", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+          <%= f.text_field :name, placeholder: "Ex: João da Silva", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'", required: true %>
+        </div>
+
+        <div style="grid-column: 1 / -1;">
+          <%= f.label :email, "Email", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+          <%= f.email_field :email, placeholder: "email@exemplo.com", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'", required: true %>
+          <p style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;">Será usado para login e comunicações</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segurança -->
+    <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); margin-bottom: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #f1f5f9;">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); display: flex; align-items: center; justify-content: center;">
+          <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+        </div>
+        <div>
+          <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem;">Segurança</h2>
+          <p style="color: #64748b; font-size: 0.875rem;">Defina a senha de acesso</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div>
+          <%= f.label :password, "Senha", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+          <%= f.password_field :password, placeholder: "Mínimo 6 caracteres", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#f59e0b'", onblur: "this.style.borderColor='#e2e8f0'", required: true %>
+          <p style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;">Mínimo de 6 caracteres</p>
+        </div>
+
+        <div>
+          <%= f.label :password_confirmation, "Confirmar Senha", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+          <%= f.password_field :password_confirmation, placeholder: "Digite a senha novamente", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#f59e0b'", onblur: "this.style.borderColor='#e2e8f0'", required: true %>
+          <p style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;">Repita a senha acima</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Configurações da Conta -->
+    <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); margin-bottom: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #f1f5f9;">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); display: flex; align-items: center; justify-content: center;">
+          <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem;">Configurações da Conta</h2>
+          <p style="color: #64748b; font-size: 0.875rem;">Status e tipo de assinatura</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div>
+          <%= f.label :status, "Status da Conta", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+          <%= f.select :status, [['✓ Ativo', 'active'], ['✕ Bloqueado', 'blocked']], {}, style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; background: white; cursor: pointer; transition: all 0.2s;", onfocus: "this.style.borderColor='#8b5cf6'", onblur: "this.style.borderColor='#e2e8f0'" %>
+          <p style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;">Contas bloqueadas não podem fazer login</p>
+        </div>
+
+        <div>
+          <%= f.label :subscription_status, "Tipo de Assinatura", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+          <%= f.select :subscription_status, [['Gratuito', 'free'], ['⭐ Assinante Premium', 'subscriber']], {}, style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; background: white; cursor: pointer; transition: all 0.2s;", onfocus: "this.style.borderColor='#8b5cf6'", onblur: "this.style.borderColor='#e2e8f0'" %>
+          <p style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;">Define o nível de acesso aos conteúdos</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
+      <%= link_to panel_members_path, style: "padding: 0.875rem 2rem; background: white; border: 2px solid #e2e8f0; color: #475569; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 0.9375rem; transition: all 0.2s;", onmouseover: "this.style.borderColor='#cbd5e1'", onmouseout: "this.style.borderColor='#e2e8f0'" do %>
+        Cancelar
+      <% end %>
+      <%= f.submit "Criar Membro", style: "padding: 0.875rem 2.5rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 0.9375rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,212,255,0.25); transition: all 0.3s;", onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,212,255,0.35)'", onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,212,255,0.25)'" %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

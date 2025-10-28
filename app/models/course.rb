@@ -4,6 +4,8 @@ class Course < ApplicationRecord
   has_many :lessons, dependent: :destroy
   has_many :users, through: :course_progresses
 
+  accepts_nested_attributes_for :lessons, allow_destroy: true, reject_if: :all_blank
+
   validates :title, presence: true
   validates :total_lessons, numericality: { greater_than_or_equal_to: 0 }
 

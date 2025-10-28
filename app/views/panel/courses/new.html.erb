@@ -1,0 +1,286 @@
+<div style="max-width: 1200px;">
+  <%= form_with model: @course, url: panel_courses_path, local: true, multipart: true do |f| %>
+    <% if @course.errors.any? %>
+      <div style="background: #fee2e2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+        <strong style="color: #991b1b; font-weight: 600;"><%= pluralize(@course.errors.count, "erro") %>:</strong>
+        <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #991b1b; font-size: 0.875rem;">
+          <% @course.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Informações do Curso -->
+    <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); margin-bottom: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #f1f5f9;">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); display: flex; align-items: center; justify-content: center;">
+          <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+        </div>
+        <div>
+          <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem;">Informações do Curso</h2>
+          <p style="color: #64748b; font-size: 0.875rem;">Dados básicos e configurações</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <!-- Left Column -->
+        <div>
+          <div style="margin-bottom: 1.5rem;">
+            <%= f.label :title, "Título do Curso", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+            <%= f.text_field :title, placeholder: "Ex: Ruby on Rails Avançado", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'", required: true %>
+          </div>
+
+          <div style="margin-bottom: 1.5rem;">
+            <%= f.label :description, "Descrição", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+            <%= f.text_area :description, rows: 4, placeholder: "Descreva o conteúdo e objetivos do curso...", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; resize: vertical; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+          </div>
+
+          <div style="margin-bottom: 1.5rem;">
+            <%= f.label :total_lessons, "Total de Aulas", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+            <%= f.number_field :total_lessons, value: 0, min: 0, style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+            <p style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;">Será atualizado automaticamente com as aulas cadastradas</p>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div>
+          <div style="margin-bottom: 1.5rem;">
+            <%= f.label :photo, "Imagem do Curso", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+            <div style="border: 2px dashed #e2e8f0; border-radius: 12px; padding: 2rem; text-align: center; background: #f8fafc; transition: all 0.2s;" onmouseover="this.style.borderColor='#00d4ff'; this.style.background='#f0f9ff'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+              <svg width="48" height="48" fill="none" stroke="#94a3b8" viewBox="0 0 24 24" style="margin: 0 auto 1rem;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              <%= file_field_tag :photo, accept: 'image/*', style: "width: 100%; font-size: 0.875rem;" %>
+              <p style="margin-top: 0.75rem; font-size: 0.8125rem; color: #64748b;">PNG, JPG ou WEBP (máx. 5MB)</p>
+            </div>
+          </div>
+
+          <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 12px; padding: 1.5rem; border: 1px solid #bae6fd;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); display: flex; align-items: center; justify-content: center;">
+                <svg width="20" height="20" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <h4 style="font-weight: 700; color: #0a0e27; font-size: 0.9375rem; margin-bottom: 0.25rem;">Status do Curso</h4>
+                <p style="font-size: 0.8125rem; color: #475569;">Defina se o curso estará visível</p>
+              </div>
+            </div>
+            <label style="display: flex; align-items: center; gap: 0.875rem; padding: 1rem; background: white; border-radius: 10px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='transparent'">
+              <%= f.check_box :active, checked: true, style: "width: 24px; height: 24px; cursor: pointer; accent-color: #00d4ff;" %>
+              <div>
+                <span style="font-weight: 600; font-size: 0.9375rem; color: #0a0e27; display: block;">Curso ativo</span>
+                <span style="font-size: 0.8125rem; color: #64748b;">Disponível para visualização</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aulas do Curso -->
+    <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); margin-bottom: 1.5rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #f1f5f9;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); display: flex; align-items: center; justify-content: center;">
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem;">Aulas do Curso</h2>
+            <p style="color: #64748b; font-size: 0.875rem;">Adicione as aulas que farão parte deste curso</p>
+          </div>
+        </div>
+        <button type="button" onclick="addLesson()" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 0.875rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(16, 185, 129, 0.35)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.25)'">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+          </svg>
+          Adicionar Aula
+        </button>
+      </div>
+
+      <div id="lessons-container">
+        <%= f.fields_for :lessons do |lesson_form| %>
+          <%= render 'lesson_fields', f: lesson_form %>
+        <% end %>
+        <div id="empty-state" style="text-align: center; padding: 3rem 1rem; color: #94a3b8;">
+          <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 1rem; opacity: 0.5;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <p style="font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem;">Nenhuma aula adicionada</p>
+          <p style="font-size: 0.875rem;">Clique no botão "Adicionar Aula" para começar</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
+      <%= link_to panel_courses_path, style: "padding: 0.875rem 2rem; background: white; border: 2px solid #e2e8f0; color: #475569; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 0.9375rem; transition: all 0.2s;", onmouseover: "this.style.borderColor='#cbd5e1'", onmouseout: "this.style.borderColor='#e2e8f0'" do %>
+        Cancelar
+      <% end %>
+      <%= f.submit "Criar Curso", style: "padding: 0.875rem 2.5rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 0.9375rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,212,255,0.25); transition: all 0.3s;", onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,212,255,0.35)'", onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,212,255,0.25)'" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  let lessonIndex = <%= @course.lessons.size %>;
+
+  function addLesson() {
+    const container = document.getElementById('lessons-container');
+    const emptyState = document.getElementById('empty-state');
+    
+    // Esconde o empty state quando adicionar a primeira aula
+    if (emptyState) {
+      emptyState.style.display = 'none';
+    }
+
+    // Calcula o próximo número de ordem baseado nas aulas existentes
+    const existingLessons = container.querySelectorAll('.lesson-item').length;
+    const nextOrder = existingLessons + 1;
+
+    const newLesson = `
+      <div class="lesson-item" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); border: 2px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; position: relative; animation: slideIn 0.3s ease;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e2e8f0;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.875rem;">
+              ${nextOrder}
+            </div>
+            <span style="font-weight: 600; color: #0a0e27; font-size: 0.9375rem;">Aula ${nextOrder}</span>
+          </div>
+          <button type="button" onclick="removeLesson(this)" style="width: 32px; height: 32px; border-radius: 8px; background: #fee2e2; color: #991b1b; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='#fca5a5'" onmouseout="this.style.background='#fee2e2'" title="Remover aula">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+          </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;">
+              Título da Aula <span style="color: #ef4444;">*</span>
+            </label>
+            <input type="text" name="course[lessons_attributes][${lessonIndex}][title]" placeholder="Ex: Introdução ao Rails" style="width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; transition: all 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#e2e8f0'" required>
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;">Ordem</label>
+            <input type="number" name="course[lessons_attributes][${lessonIndex}][order_number]" value="${nextOrder}" min="0" style="width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; transition: all 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#e2e8f0'">
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;">Duração (min)</label>
+            <input type="number" name="course[lessons_attributes][${lessonIndex}][duration_minutes]" value="0" min="0" style="width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; transition: all 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#e2e8f0'">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;">URL do Vídeo</label>
+          <input type="url" name="course[lessons_attributes][${lessonIndex}][video_url]" placeholder="https://youtube.com/watch?v=..." style="width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; transition: all 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#e2e8f0'">
+        </div>
+
+        <div>
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;">Descrição</label>
+          <textarea name="course[lessons_attributes][${lessonIndex}][description]" rows="2" placeholder="Descreva o conteúdo da aula..." style="width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; resize: vertical; transition: all 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+        </div>
+      </div>
+    `;
+    
+    // Insere antes do empty state
+    if (emptyState) {
+      emptyState.insertAdjacentHTML('beforebegin', newLesson);
+    } else {
+      container.insertAdjacentHTML('beforeend', newLesson);
+    }
+    
+    lessonIndex++;
+    updateLessonCount();
+  }
+
+  function removeLesson(button) {
+    const container = document.getElementById('lessons-container');
+    const emptyState = document.getElementById('empty-state');
+    
+    Swal.fire({
+      title: 'Remover aula?',
+      text: 'Esta ação não pode ser desfeita.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'Sim, remover',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        button.closest('.lesson-item').remove();
+        updateLessonCount();
+        
+        // Mostra empty state se não houver mais aulas
+        const remainingLessons = container.querySelectorAll('.lesson-item').length;
+        if (remainingLessons === 0 && emptyState) {
+          emptyState.style.display = 'block';
+        }
+        
+        // Renumera as aulas
+        renumberLessons();
+      }
+    });
+  }
+
+  function updateLessonCount() {
+    const container = document.getElementById('lessons-container');
+    const count = container.querySelectorAll('.lesson-item').length;
+    const totalLessonsInput = document.querySelector('input[name="course[total_lessons]"]');
+    if (totalLessonsInput) {
+      totalLessonsInput.value = count;
+    }
+  }
+
+  function renumberLessons() {
+    const lessons = document.querySelectorAll('.lesson-item');
+    lessons.forEach((lesson, index) => {
+      const orderNumber = index + 1;
+      const badge = lesson.querySelector('div[style*="linear-gradient(135deg, #10b981"]');
+      const label = lesson.querySelector('span[style*="font-weight: 600"]');
+      const orderInput = lesson.querySelector('input[name*="[order_number]"]');
+      
+      if (badge) badge.textContent = orderNumber;
+      if (label) label.textContent = `Aula ${orderNumber}`;
+      if (orderInput) orderInput.value = orderNumber;
+    });
+  }
+
+  // Inicializa o contador ao carregar a página
+  document.addEventListener('DOMContentLoaded', function() {
+    updateLessonCount();
+  });
+</script>
+
+<style>
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<style>
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="grid-template-columns: 2fr 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

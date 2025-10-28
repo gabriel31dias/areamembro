@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Admin Login</title>
+    <title>Login - Painel</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -97,24 +97,27 @@
         padding: 3rem;
       }
 
-      .auth-header {
+      .auth-logo {
         margin-bottom: 2rem;
       }
 
-      .auth-header h1 {
+      .auth-logo h1 {
         font-size: 2rem;
-        color: #0a0e27;
+        background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         margin-bottom: 0.5rem;
         font-weight: 700;
       }
 
-      .auth-header p {
+      .auth-logo p {
         color: #64748b;
         font-size: 1rem;
       }
 
       .form-group {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.25rem;
       }
 
       .form-label {

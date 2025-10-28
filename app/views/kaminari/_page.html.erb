@@ -8,9 +8,9 @@
     remote:        data-remote
 -%>
 <% if page.current? %>
-  <span style="padding: 0.5rem 0.875rem; background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%); color: white; border-radius: 8px; font-weight: 600; font-size: 0.875rem;">
+  <span style="padding: 0.5rem 0.875rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; border-radius: 8px; font-weight: 600; font-size: 0.875rem;">
     <%= page %>
   </span>
 <% else %>
-  <%= link_to page, url, style: "padding: 0.5rem 0.875rem; background: white; color: #2d3748; border: 2px solid #e2e8f0; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: all 0.2s;", onmouseover: "this.style.borderColor='#00b4d8'; this.style.color='#00b4d8'", onmouseout: "this.style.borderColor='#e2e8f0'; this.style.color='#2d3748'" %>
+  <%= link_to page, url, style: "padding: 0.5rem 0.875rem; background: white; color: #2d3748; border: 2px solid #e2e8f0; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: all 0.2s;", onmouseover: "this.style.borderColor='#00d4ff'; this.style.color='#00d4ff'", onmouseout: "this.style.borderColor='#e2e8f0'; this.style.color='#2d3748'" %>
 <% end %>

@@ -22,6 +22,27 @@ Rails.application.routes.draw do
     end
   end
 
+  # User Panel Routes (Mobile-First)
+  namespace :panel do
+    get 'login', to: 'sessions#new'
+    post 'login', to: 'sessions#create'
+    delete 'logout', to: 'sessions#destroy'
+    
+    get 'dashboard', to: 'dashboard#index'
+    resources :courses do
+      resources :lessons, except: [:index, :show]
+    end
+    resources :members
+    resources :plans
+    
+    # Settings / API Credentials
+    get 'settings', to: 'settings#index'
+    post 'settings/generate_credentials', to: 'settings#generate_credentials'
+    delete 'settings/revoke_credentials', to: 'settings#revoke_credentials'
+    
+    root to: 'dashboard#index'
+  end
+
   # API routes
   namespace :api do
     namespace :v1 do

@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Painel de Cursos</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta name="turbo-visit-control" content="reload">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/logo.webp">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "mobile_responsive", "data-turbo-track": "reload" %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/assets/javascripts/infinite_scroll.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      
+      @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+
+      @keyframes shimmer {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
+      }
+      
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(-45deg, #f0f9ff, #e0f2fe, #dbeafe, #eff6ff);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        color: #0f172a;
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 280px;
+        background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+        position: fixed;
+        height: 100vh;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        z-index: 100;
+        transition: transform 0.3s ease;
+        box-shadow: 4px 0 40px rgba(0,0,0,0.2);
+        border-right: 1px solid rgba(255,255,255,0.05);
+      }
+
+      .sidebar::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 200px;
+        background: radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.15), transparent 70%);
+        pointer-events: none;
+      }
+
+      .sidebar-header {
+        padding: 2rem 1.5rem;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        position: relative;
+      }
+
+      .sidebar-logo {
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 0;
+      }
+
+      .sidebar-logo img {
+        height: 40px;
+        width: auto;
+        filter: brightness(0) invert(1);
+        transition: all 0.3s ease;
+      }
+
+      .sidebar-logo:hover img {
+        transform: scale(1.05);
+        filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+      }
+
+      .sidebar-user {
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+        padding: 1rem;
+        background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+        border-radius: 16px;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.1);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .sidebar-user::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transition: left 0.5s;
+      }
+
+      .sidebar-user:hover::before {
+        left: 100%;
+      }
+
+      .sidebar-user:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0, 212, 255, 0.2);
+      }
+
+      .user-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        color: white;
+        font-size: 1.125rem;
+        box-shadow: 0 8px 16px rgba(6, 182, 212, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+        position: relative;
+      }
+
+      .user-avatar::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 14px;
+        padding: 2px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+      }
+
+      .user-info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .user-name {
+        font-weight: 600;
+        color: white;
+        font-size: 0.875rem;
+        margin-bottom: 0.125rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .user-email {
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.5);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .sidebar-nav {
+        padding: 1.5rem 0;
+      }
+
+      .nav-section {
+        padding: 0 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .nav-section-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: rgba(255,255,255,0.4);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.75rem;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+        padding: 0.875rem 1.5rem;
+        margin: 0.25rem 0.75rem;
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 600;
+        font-size: 0.9375rem;
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .nav-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, #06b6d4 0%, #3b82f6 100%);
+        transform: scaleY(0);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 0 4px 4px 0;
+      }
+
+      .nav-item::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .nav-item:hover {
+        color: white;
+        transform: translateX(4px);
+      }
+
+      .nav-item:hover::after {
+        opacity: 1;
+      }
+
+      .nav-item:hover::before {
+        transform: scaleY(1);
+      }
+
+      .nav-item.active {
+        background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%);
+        color: #06b6d4;
+        box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
+      }
+
+      .nav-item.active::before {
+        transform: scaleY(1);
+      }
+
+      .nav-item svg {
+        width: 20px;
+        height: 20px;
+        transition: transform 0.3s;
+        position: relative;
+        z-index: 1;
+      }
+
+      .nav-item:hover svg {
+        transform: scale(1.1);
+      }
+
+      /* Main Content */
+      .main-wrapper {
+        flex: 1;
+        margin-left: 280px;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .top-bar {
+        background: rgba(255,255,255,0.7);
+        backdrop-filter: blur(30px) saturate(180%);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        padding: 1.5rem 2.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+      }
+
+      .page-title {
+        font-size: 2rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -1px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .page-title::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%);
+        border-radius: 2px;
+      }
+
+      .main-content {
+        flex: 1;
+        padding: 2.5rem;
+      }
+
+      /* Mobile Menu */
+      .mobile-menu-btn {
+        display: none;
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+        z-index: 1000;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.active {
+          transform: translateX(0);
+        }
+
+        .main-wrapper {
+          margin-left: 0;
+        }
+
+        .mobile-menu-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .main-content {
+          padding: 1rem;
+        }
+      }
+
+      /* Cards */
+      .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .course-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.04);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .course-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        border-color: rgba(0, 212, 255, 0.2);
+      }
+
+      .course-image {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);
+      }
+
+      .course-content {
+        padding: 1rem;
+      }
+
+      .course-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #2d3748;
+      }
+
+      .course-description {
+        font-size: 0.875rem;
+        color: #718096;
+        margin-bottom: 0.75rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .course-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.875rem;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .badge-success { background: #c6f6d5; color: #22543d; }
+      .badge-danger { background: #fed7d7; color: #742a2a; }
+
+      /* Buttons */
+      .btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+        font-size: 0.875rem;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(0, 212, 255, 0.25);
+      }
+
+      .btn-primary:hover {
+        box-shadow: 0 6px 20px rgba(0, 212, 255, 0.35);
+        transform: translateY(-1px);
+      }
+
+      .btn-primary:active {
+        transform: translateY(0);
+      }
+
+      .fab {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);
+        color: white;
+        border: none;
+        box-shadow: 0 8px 24px rgba(0, 212, 255, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .fab:hover {
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: 0 12px 32px rgba(0, 212, 255, 0.5);
+      }
+
+      .fab:active {
+        transform: translateY(-2px) scale(1.02);
+      }
+
+      /* Alerts */
+      .alert {
+        padding: 1rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+      }
+
+      .alert-success {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        color: #065f46;
+        border-left: 4px solid #10b981;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+      }
+
+      .alert-danger {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        color: #991b1b;
+        border-left: 4px solid #ef4444;
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+      }
+
+      /* Search & Filters */
+      .search-bar {
+        background: white;
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        margin-bottom: 1rem;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: #00d4ff;
+      }
+
+      .filter-chips {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .chip {
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .chip.active {
+        background: #00d4ff;
+        color: white;
+        border-color: #00d4ff;
+      }
+
+      /* Mobile Navbar Fix */
+      @media (max-width: 767px) {
+        body {
+          padding-bottom: 70px !important;
+        }
+
+        .sidebar {
+          width: 100vw !important;
+          height: 70px !important;
+          position: fixed !important;
+          bottom: 0 !important;
+          left: 0 !important;
+          top: auto !important;
+          overflow: visible !important;
+        }
+
+        .sidebar-nav {
+          display: flex !important;
+          flex-direction: row !important;
+          height: 100% !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        .nav-item {
+          flex: 1 !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 0.25rem !important;
+          padding: 0.5rem 0.25rem !important;
+          font-size: 0.6875rem !important;
+        }
+
+        .nav-item svg {
+          width: 22px !important;
+          height: 22px !important;
+        }
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <!-- Mobile Header -->
+    <div class="mobile-header" style="display: none; position: sticky; top: 0; z-index: 90; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <img src="/logo.webp" alt="HunterPay" style="height: 32px; width: auto; filter: brightness(0) invert(1);">
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div style="text-align: right;">
+            <div style="font-weight: 600; color: white; font-size: 0.875rem;"><%= current_panel_user.name || 'Usuário' %></div>
+            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.9);"><%= current_panel_user.email %></div>
+          </div>
+          <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1rem;">
+            <%= current_panel_user.name&.first&.upcase || current_panel_user.email.first.upcase %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <img src="/logo.webp" alt="HunterPay" style="height: 40px; width: auto; filter: brightness(0) invert(1);">
+        </div>
+        <div class="sidebar-user">
+          <div class="user-avatar">
+            <%= current_panel_user.name&.first&.upcase || current_panel_user.email.first.upcase %>
+          </div>
+          <div class="user-info">
+            <div class="user-name"><%= current_panel_user.name || 'Usuário' %></div>
+            <div class="user-email"><%= current_panel_user.email %></div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Menu</div>
+        </div>
+
+        <%= link_to panel_dashboard_path, class: "nav-item #{current_page?(panel_dashboard_path) || current_page?(panel_root_path) ? 'active' : ''}" do %>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          Dashboard
+        <% end %>
+
+        <%= link_to panel_courses_path, class: "nav-item #{current_page?(panel_courses_path) || current_page?(new_panel_course_path) || (controller_name == 'courses' && action_name != 'index') ? 'active' : ''}" do %>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+          Cursos
+        <% end %>
+
+        <%= link_to panel_members_path, class: "nav-item #{controller_name == 'members' ? 'active' : ''}" do %>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          Membros
+        <% end %>
+
+        <%= link_to panel_plans_path, class: "nav-item #{controller_name == 'plans' ? 'active' : ''}" do %>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          Planos
+        <% end %>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin: 1.5rem 1.5rem 1rem;"></div>
+
+        <%= link_to panel_settings_path, class: "nav-item #{controller_name == 'settings' ? 'active' : ''}" do %>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          Configurações
+        <% end %>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin: 1.5rem 1.5rem 1rem;"></div>
+
+        <%= link_to panel_logout_path, method: :delete, data: { turbo_method: :delete }, class: "nav-item" do %>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+          </svg>
+          Sair
+        <% end %>
+      </nav>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <h1 class="page-title">
+          <% if current_page?(panel_dashboard_path) || current_page?(panel_root_path) %>
+            Dashboard
+          <% elsif current_page?(panel_courses_path) %>
+            Cursos
+          <% elsif current_page?(new_panel_course_path) %>
+            Novo Curso
+          <% elsif current_page?(panel_members_path) %>
+            Membros
+          <% elsif current_page?(new_panel_member_path) %>
+            Novo Membro
+          <% elsif controller_name == 'courses' && action_name == 'edit' %>
+            Editar Curso
+          <% elsif controller_name == 'courses' && action_name == 'show' %>
+            Detalhes do Curso
+          <% elsif controller_name == 'members' && action_name == 'edit' %>
+            Editar Membro
+          <% elsif controller_name == 'members' && action_name == 'show' %>
+            Detalhes do Membro
+          <% else %>
+            Sistema
+          <% end %>
+        </h1>
+      </div>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <%= yield %>
+      </main>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+      <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+
+    <script>
+      function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('active');
+      }
+
+      // Close sidebar when clicking outside on mobile
+      document.addEventListener('click', function(event) {
+        const sidebar = document.getElementById('sidebar');
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        
+        if (window.innerWidth <= 768 && 
+            !sidebar.contains(event.target) && 
+            !menuBtn.contains(event.target) &&
+            sidebar.classList.contains('active')) {
+          sidebar.classList.remove('active');
+        }
+      });
+
+      // SweetAlert for flash messages
+      <% if notice %>
+        Swal.fire({
+          icon: 'success',
+          title: 'Sucesso!',
+          text: '<%= notice %>',
+          confirmButtonColor: '#00d4ff',
+          timer: 3000,
+          timerProgressBar: true
+        });
+      <% end %>
+
+      <% if alert %>
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro!',
+          text: '<%= alert %>',
+          confirmButtonColor: '#ef4444'
+        });
+      <% end %>
+    </script>
+  </body>
+</html>

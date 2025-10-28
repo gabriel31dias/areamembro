@@ -1,0 +1,176 @@
+<!-- Welcome Banner -->
+<div style="background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); border-radius: 24px; padding: 2.5rem; margin-bottom: 2rem; position: relative; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+  <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(0,212,255,0.2) 0%, transparent 70%); border-radius: 50%;"></div>
+  <div style="position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(0,150,199,0.15) 0%, transparent 70%); border-radius: 50%;"></div>
+  <div style="position: relative; z-index: 1;">
+    <h2 style="color: white; font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.5px;">Bem-vindo de volta! 👋</h2>
+    <p style="color: rgba(255,255,255,0.7); font-size: 1.125rem;">Gerencie seus cursos e acompanhe o progresso</p>
+  </div>
+</div>
+
+<!-- Stats Grid -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+  <!-- Revenue Card -->
+  <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 16px; padding: 1.25rem; box-shadow: 0 4px 12px rgba(16,185,129,0.2); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); border-radius: 50%;"></div>
+    <div style="position: relative; z-index: 1;">
+      <p style="color: rgba(255,255,255,0.85); font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.3px;">Receita</p>
+      <p style="font-size: 1.75rem; font-weight: 800; color: white; line-height: 1; letter-spacing: -0.5px; margin-bottom: 0.25rem;">R$ <%= number_with_precision(@total_revenue, precision: 2, delimiter: '.', separator: ',') %></p>
+      <p style="color: rgba(255,255,255,0.75); font-size: 0.75rem;"><%= @completed_sales %> vendas</p>
+    </div>
+  </div>
+
+  <!-- Active Users Card -->
+  <div style="background: white; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.04);">
+    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+      <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); display: flex; align-items: center; justify-content: center;">
+        <svg width="20" height="20" fill="none" stroke="#0066ff" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+      </div>
+      <div>
+        <p style="color: #64748b; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;">Usuários</p>
+        <p style="font-size: 1.75rem; font-weight: 800; color: #0a0e27; line-height: 1; letter-spacing: -0.5px;"><%= @active_members %></p>
+      </div>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.75rem;">De <%= @total_users %> total</p>
+  </div>
+
+  <!-- Subscribers Card -->
+  <div style="background: white; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.04);">
+    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+      <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); display: flex; align-items: center; justify-content: center;">
+        <svg width="20" height="20" fill="none" stroke="#d97706" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+        </svg>
+      </div>
+      <div>
+        <p style="color: #64748b; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;">Assinantes</p>
+        <p style="font-size: 1.75rem; font-weight: 800; color: #0a0e27; line-height: 1; letter-spacing: -0.5px;"><%= @subscribers %></p>
+      </div>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.75rem;">Planos ativos</p>
+  </div>
+
+  <!-- Conversion Rate Card -->
+  <div style="background: white; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.04);">
+    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+      <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%); display: flex; align-items: center; justify-content: center;">
+        <svg width="20" height="20" fill="none" stroke="#7c3aed" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+        </svg>
+      </div>
+      <div>
+        <p style="color: #64748b; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;">Conversão</p>
+        <p style="font-size: 1.75rem; font-weight: 800; color: #0a0e27; line-height: 1; letter-spacing: -0.5px;"><%= @conversion_rate %>%</p>
+      </div>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.75rem;">Taxa de assinatura</p>
+  </div>
+</div>
+
+<!-- Recent Sales -->
+<div style="background: white; border-radius: 24px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); margin-bottom: 2rem;">
+  <div style="margin-bottom: 1.5rem;">
+    <h2 style="font-size: 1.25rem; font-weight: 800; color: #0a0e27; letter-spacing: -0.5px; margin-bottom: 0.25rem;">Últimas Vendas</h2>
+    <p style="color: #64748b; font-size: 0.875rem;">Transações recentes completadas</p>
+  </div>
+
+  <% if @recent_sales.any? %>
+    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <% @recent_sales.each do |sale| %>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: #f8fafc; border-radius: 12px; border: 1px solid #f1f5f9;">
+          <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.875rem;">
+              <%= sale.user.name&.first&.upcase || sale.user.email.first.upcase %>
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-weight: 600; color: #0a0e27; font-size: 0.9375rem; margin-bottom: 0.125rem;"><%= sale.user.name || sale.user.email %></div>
+              <div style="font-size: 0.8125rem; color: #64748b;"><%= sale.plan&.name || 'Sem plano' %></div>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-weight: 700; color: #10b981; font-size: 1.125rem;">R$ <%= number_with_precision(sale.amount, precision: 2, delimiter: '.', separator: ',') %></div>
+            <div style="font-size: 0.75rem; color: #64748b;"><%= time_ago_in_words(sale.created_at) %> atrás</div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div style="text-align: center; padding: 3rem; color: #94a3b8;">
+      <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 1rem;">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <p style="font-weight: 600;">Nenhuma venda registrada ainda</p>
+    </div>
+  <% end %>
+</div>
+
+<!-- Recent Courses -->
+<div style="background: white; border-radius: 24px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); margin-bottom: 2rem;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <div>
+      <h2 style="font-size: 1.5rem; font-weight: 800; color: #0a0e27; letter-spacing: -0.5px;">Cursos Recentes</h2>
+      <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.25rem;">Últimos cursos adicionados</p>
+    </div>
+    <%= link_to panel_courses_path, style: "display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 0.875rem; box-shadow: 0 4px 12px rgba(0,212,255,0.25); transition: all 0.3s;" do %>
+      Ver todos
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    <% end %>
+  </div>
+
+  <% if @recent_courses.any? %>
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <% @recent_courses.each do |course| %>
+        <%= link_to panel_course_path(course), style: "display: flex; gap: 1rem; padding: 1rem; border-radius: 12px; background: #f7fafc; text-decoration: none; transition: all 0.2s;", onmouseover: "this.style.background='#edf2f7'", onmouseout: "this.style.background='#f7fafc'" do %>
+          <% if course.photo.attached? %>
+            <%= image_tag course.photo, style: "width: 80px; height: 80px; border-radius: 12px; object-fit: cover;" %>
+          <% else %>
+            <div style="width: 80px; height: 80px; border-radius: 12px; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);"></div>
+          <% end %>
+          
+          <div style="flex: 1;">
+            <h3 style="font-weight: 600; color: #2d3748; margin-bottom: 0.25rem;"><%= course.title %></h3>
+            <p style="font-size: 0.875rem; color: #718096; margin-bottom: 0.5rem;"><%= course.description&.truncate(60) || 'Sem descrição' %></p>
+            <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #718096;">
+              <span>📚 <%= course.total_lessons %> aulas</span>
+              <span class="badge badge-<%= course.active ? 'success' : 'danger' %>"><%= course.active ? 'Ativo' : 'Inativo' %></span>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <p style="text-align: center; color: #718096; padding: 2rem;">Nenhum curso cadastrado ainda</p>
+  <% end %>
+</div>
+
+<!-- Quick Actions -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+  <%= link_to new_panel_course_path, style: "background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; padding: 2rem; border-radius: 20px; text-decoration: none; display: flex; align-items: center; gap: 1.25rem; box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3); transition: all 0.3s; position: relative; overflow: hidden;", onmouseover: "this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 32px rgba(0, 212, 255, 0.4)'", onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 24px rgba(0, 212, 255, 0.3)'" do %>
+    <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%); border-radius: 50%;"></div>
+    <div style="width: 56px; height: 56px; background: rgba(255,255,255,0.2); border-radius: 16px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
+      <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+      </svg>
+    </div>
+    <div style="position: relative; z-index: 1;">
+      <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.25rem;">Novo Curso</div>
+      <div style="font-size: 0.875rem; opacity: 0.9;">Criar um novo curso</div>
+    </div>
+  <% end %>
+
+  <%= link_to panel_courses_path, style: "background: white; border: 2px solid #e2e8f0; color: #0a0e27; padding: 2rem; border-radius: 20px; text-decoration: none; display: flex; align-items: center; gap: 1.25rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: all 0.3s;", onmouseover: "this.style.borderColor='#00d4ff'; this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(0,212,255,0.15)'", onmouseout: "this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.06)'" do %>
+    <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+      <svg width="28" height="28" fill="none" stroke="#0066ff" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+      </svg>
+    </div>
+    <div>
+      <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.25rem;">Ver Cursos</div>
+      <div style="font-size: 0.875rem; color: #64748b;">Gerenciar todos os cursos</div>
+    </div>
+  <% end %>
+</div>

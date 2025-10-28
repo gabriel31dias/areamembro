@@ -1,0 +1,94 @@
+<div style="max-width: 700px; margin: 0 auto; padding: 1rem;">
+  <!-- Header -->
+  <div style="margin-bottom: 1.5rem;">
+    <%= link_to edit_panel_course_path(@course), style: "display: inline-flex; align-items: center; gap: 0.5rem; color: #64748b; text-decoration: none; font-size: 0.875rem; transition: color 0.2s;", onmouseover: "this.style.color='#00d4ff'", onmouseout: "this.style.color='#64748b'" do %>
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Voltar para edição do curso
+    <% end %>
+  </div>
+
+  <div style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.06);">
+    <!-- Title Section -->
+    <div style="margin-bottom: 2rem;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+        <div style="width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);">
+          <svg width="28" height="28" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 style="font-weight: 700; color: #0a0e27; font-size: 1.5rem; margin-bottom: 0.25rem;">Nova Aula</h1>
+          <p style="color: #64748b; font-size: 0.875rem;"><%= @course.title %></p>
+        </div>
+      </div>
+    </div>
+
+    <%= form_with model: [@course, @lesson], url: panel_course_lessons_path(@course), local: true do |f| %>
+      <% if @lesson.errors.any? %>
+        <div style="background: #fee2e2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 1.25rem; margin-bottom: 2rem;">
+          <div style="display: flex; align-items: start; gap: 1rem;">
+            <svg width="24" height="24" fill="none" stroke="#991b1b" viewBox="0 0 24 24" style="flex-shrink: 0;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <div style="flex: 1;">
+              <h3 style="color: #991b1b; font-weight: 600; margin-bottom: 0.75rem; font-size: 1rem;">
+                <%= pluralize(@lesson.errors.count, "erro") %> encontrado<%= @lesson.errors.count > 1 ? 's' : '' %>
+              </h3>
+              <ul style="margin-left: 1.25rem; color: #991b1b; font-size: 0.875rem; line-height: 1.6;">
+                <% @lesson.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div style="display: grid; gap: 1.25rem;">
+        <!-- Título e Ordem -->
+        <div style="display: grid; grid-template-columns: 2fr 100px; gap: 1rem;">
+          <div>
+            <%= f.label :title, "Título da Aula *", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.875rem;" %>
+            <%= f.text_field :title, placeholder: "Ex: Introdução ao Rails", style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'", required: true %>
+          </div>
+
+          <div>
+            <%= f.label :order_number, "Ordem *", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.875rem;" %>
+            <%= f.number_field :order_number, value: @course.lessons.count + 1, min: 1, style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem; text-align: center; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'", required: true %>
+          </div>
+        </div>
+
+        <!-- Descrição -->
+        <div>
+          <%= f.label :description, "Descrição", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.875rem;" %>
+          <%= f.text_area :description, rows: 2, placeholder: "Breve descrição do conteúdo...", style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem; resize: vertical; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        </div>
+
+        <!-- URL do Vídeo e Duração -->
+        <div style="display: grid; grid-template-columns: 1fr 120px; gap: 1rem;">
+          <div>
+            <%= f.label :video_url, "URL do Vídeo", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.875rem;" %>
+            <%= f.url_field :video_url, placeholder: "https://youtube.com/...", style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+          </div>
+
+          <div>
+            <%= f.label :duration_minutes, "Duração", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.875rem;" %>
+            <%= f.number_field :duration_minutes, min: 1, placeholder: "30", style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+            <p style="margin-top: 0.25rem; font-size: 0.6875rem; color: #64748b;">minutos</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display: flex; gap: 0.75rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0;">
+        <%= f.submit "✓ Criar Aula", style: "flex: 1; padding: 0.875rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 0.9375rem; cursor: pointer;" %>
+        <%= link_to edit_panel_course_path(@course), style: "flex: 1; padding: 0.875rem; border: 2px solid #e2e8f0; color: #475569; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.9375rem; text-align: center;" do %>
+          Cancelar
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

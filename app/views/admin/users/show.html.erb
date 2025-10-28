@@ -1,6 +1,6 @@
 <div class="top-bar">
   <div>
-    <%= link_to admin_users_path, style: "color: #00b4d8; text-decoration: none; font-size: 0.875rem; display: inline-block; margin-bottom: 0.5rem;" do %>
+    <%= link_to admin_users_path, style: "color: #00d4ff; text-decoration: none; font-size: 0.875rem; display: inline-block; margin-bottom: 0.5rem;" do %>
       ← Voltar para usuários
     <% end %>
     <h2 style="font-size: 1.5rem; font-weight: 700;">Detalhes do Usuário</h2>
@@ -139,7 +139,7 @@
             <div style="font-weight: 700; color: #667eea;"><%= progress.percentage.to_i %>%</div>
           </div>
           <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
-            <div style="background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%); height: 100%; width: <%= progress.percentage %>%; transition: width 0.3s;"></div>
+            <div style="background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); height: 100%; width: <%= progress.percentage %>%; transition: width 0.3s;"></div>
           </div>
           <div style="font-size: 0.75rem; color: #718096; margin-top: 0.5rem;">
             <%= progress.completed_lessons %> de <%= progress.course.total_lessons %> aulas completas

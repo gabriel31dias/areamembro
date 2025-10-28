@@ -1,0 +1,147 @@
+<div style="max-width: 1200px; margin: 0 auto; padding: 1rem;">
+  <!-- Header -->
+  <div style="margin-bottom: 1.5rem;">
+    <%= link_to panel_courses_path, style: "display: inline-flex; align-items: center; gap: 0.5rem; color: #64748b; text-decoration: none; font-size: 0.875rem; transition: color 0.2s;", onmouseover: "this.style.color='#00d4ff'", onmouseout: "this.style.color='#64748b'" do %>
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Voltar para cursos
+    <% end %>
+  </div>
+
+  <!-- Title -->
+  <div style="margin-bottom: 2rem;">
+    <h1 style="font-weight: 800; color: #0a0e27; font-size: 2rem; margin-bottom: 0.5rem;">Editar Curso</h1>
+    <p style="color: #64748b; font-size: 1rem;">Atualize as informações do curso e gerencie as aulas</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+    <!-- Coluna Esquerda: Formulário do Curso -->
+    <div>
+      <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.06); margin-bottom: 1.5rem;">
+        <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          Informações do Curso
+        </h2>
+
+        <%= form_with model: @course, url: panel_course_path(@course), method: :patch, local: true, multipart: true do |f| %>
+          <% if @course.errors.any? %>
+            <div style="background: #fee2e2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+              <strong style="color: #991b1b; font-weight: 600;"><%= pluralize(@course.errors.count, "erro") %>:</strong>
+              <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #991b1b; font-size: 0.875rem;">
+                <% @course.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div style="margin-bottom: 1.25rem;">
+            <%= f.label :title, "Título *", style: "display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;" %>
+            <%= f.text_field :title, placeholder: "Nome do curso", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'", required: true %>
+          </div>
+
+          <div style="margin-bottom: 1.25rem;">
+            <%= f.label :description, "Descrição", style: "display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;" %>
+            <%= f.text_area :description, rows: 4, placeholder: "Descreva o curso...", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; resize: vertical; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+          </div>
+
+          <% if @course.photo.attached? %>
+            <div style="margin-bottom: 1.25rem;">
+              <div style="font-weight: 600; font-size: 0.875rem; color: #0a0e27; margin-bottom: 0.5rem;">Foto Atual</div>
+              <%= image_tag @course.photo, style: "width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 0.75rem;" %>
+            </div>
+          <% end %>
+
+          <div style="margin-bottom: 1.25rem;">
+            <%= f.label :photo, @course.photo.attached? ? "Alterar Foto" : "Foto do Curso", style: "display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;" %>
+            <%= file_field_tag :photo, accept: 'image/*', style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.875rem;" %>
+          </div>
+
+          <div style="padding: 1rem; background: #f8fafc; border-radius: 12px; margin-bottom: 1.5rem;">
+            <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+              <%= f.check_box :active, style: "width: 20px; height: 20px; cursor: pointer; accent-color: #00d4ff;" %>
+              <div>
+                <div style="font-weight: 600; font-size: 0.875rem; color: #0a0e27;">Curso Ativo</div>
+                <div style="font-size: 0.75rem; color: #64748b;">Disponível para visualização</div>
+              </div>
+            </label>
+          </div>
+
+          <%= f.submit "💾 Salvar Alterações", style: "width: 100%; padding: 0.875rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 0.9375rem; cursor: pointer; margin-bottom: 0.75rem;" %>
+          <%= link_to "Cancelar", panel_course_path(@course), style: "display: block; width: 100%; text-align: center; padding: 0.875rem; border: 2px solid #e2e8f0; color: #475569; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 0.9375rem;" %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Coluna Direita: Aulas -->
+    <div>
+      <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.06);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Aulas (<%= @course.lessons.count %>)
+          </h2>
+          <%= link_to new_panel_course_lesson_path(@course), style: "padding: 0.625rem 1.25rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 0.5rem;" do %>
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            Nova Aula
+          <% end %>
+        </div>
+
+        <% if @course.lessons.any? %>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 600px; overflow-y: auto; padding-right: 0.5rem;">
+            <% @course.lessons.order(:order_number).each do |lesson| %>
+              <div style="padding: 1rem; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; transition: all 0.2s;" onmouseover="this.style.borderColor='#00d4ff'; this.style.background='#f0f9ff'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                  <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                      <span style="width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8125rem; flex-shrink: 0;">
+                        <%= lesson.order_number %>
+                      </span>
+                      <h3 style="font-weight: 600; color: #0a0e27; font-size: 0.9375rem; line-height: 1.3;"><%= lesson.title %></h3>
+                    </div>
+                    <% if lesson.description.present? %>
+                      <p style="color: #64748b; font-size: 0.8125rem; margin-left: 2.25rem; line-height: 1.4;"><%= lesson.description.truncate(80) %></p>
+                    <% end %>
+                    <div style="display: flex; gap: 1rem; margin-left: 2.25rem; margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">
+                      <% if lesson.duration_minutes.present? %>
+                        <span>⏱️ <%= lesson.duration_minutes %> min</span>
+                      <% end %>
+                      <% if lesson.video_url.present? %>
+                        <span>🎥 Vídeo</span>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
+                    <%= link_to edit_panel_course_lesson_path(@course, lesson), style: "padding: 0.375rem 0.625rem; border: 2px solid #e2e8f0; color: #475569; border-radius: 8px; text-decoration: none; font-size: 0.75rem; transition: all 0.2s;", onmouseover: "this.style.borderColor='#00d4ff'; this.style.color='#00d4ff'", onmouseout: "this.style.borderColor='#e2e8f0'; this.style.color='#475569'" do %>
+                      ✏️
+                    <% end %>
+                    <%= link_to panel_course_lesson_path(@course, lesson), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Tem certeza?' }, style: "padding: 0.375rem 0.625rem; border: 2px solid #fee2e2; color: #991b1b; border-radius: 8px; text-decoration: none; font-size: 0.75rem; transition: all 0.2s;", onmouseover: "this.style.borderColor='#ef4444'; this.style.background='#fee2e2'", onmouseout: "this.style.borderColor='#fee2e2'; this.style.background='transparent'" do %>
+                      🗑️
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div style="text-align: center; padding: 3rem 1rem; color: #94a3b8;">
+            <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 1rem;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <p style="font-weight: 600; font-size: 1rem;">Nenhuma aula cadastrada</p>
+            <p style="font-size: 0.875rem; margin-top: 0.5rem;">Clique em "Nova Aula" para começar</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

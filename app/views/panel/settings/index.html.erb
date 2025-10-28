@@ -1,0 +1,99 @@
+<div style="max-width: 800px; margin: 0 auto; padding: 1rem;">
+  <div style="margin-bottom: 2rem;">
+    <h1 style="font-weight: 800; color: #0a0e27; font-size: 2rem; margin-bottom: 0.5rem;">⚙️ Configurações</h1>
+    <p style="color: #64748b; font-size: 1rem;">Configure suas credenciais de API para integração com HunterSub</p>
+  </div>
+
+  <!-- API Credentials Card -->
+  <div style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.06); margin-bottom: 1.5rem;">
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+      <div style="width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);">
+        <svg width="28" height="28" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+        </svg>
+      </div>
+      <div>
+        <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem; margin-bottom: 0.25rem;">Credenciais de API</h2>
+        <p style="color: #64748b; font-size: 0.875rem;">Insira suas credenciais obtidas no HunterSub</p>
+      </div>
+    </div>
+
+    <%= form_with model: @user, url: panel_settings_path, method: :patch, local: true do |f| %>
+      <% if @user.errors.any? %>
+        <div style="background: #fee2e2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+          <strong style="color: #991b1b; font-weight: 600;"><%= pluralize(@user.errors.count, "erro") %>:</strong>
+          <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #991b1b; font-size: 0.875rem;">
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- API Key -->
+      <div style="margin-bottom: 1.5rem;">
+        <%= f.label :api_key, "API Key (ID)", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.875rem;" %>
+        <%= f.text_field :api_key, placeholder: "Cole aqui sua API Key do HunterSub", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; font-family: monospace; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">Identificador público da sua conta no HunterSub</p>
+      </div>
+
+      <!-- API Secret -->
+      <div style="margin-bottom: 1.5rem;">
+        <%= f.label :api_secret, "Secret Key", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.875rem;" %>
+        <%= f.password_field :api_secret, placeholder: "Cole aqui sua Secret Key do HunterSub", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; font-family: monospace; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">Chave secreta para autenticação (mantenha em segurança)</p>
+      </div>
+
+      <!-- Warning -->
+      <div style="padding: 1rem; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 10px; margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: start; gap: 0.75rem;">
+          <svg width="20" height="20" fill="none" stroke="#92400e" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 0.125rem;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <div style="flex: 1;">
+            <div style="font-weight: 600; color: #92400e; font-size: 0.875rem; margin-bottom: 0.25rem;">Importante!</div>
+            <div style="color: #92400e; font-size: 0.8125rem; line-height: 1.5;">
+              Essas credenciais são obtidas no painel do HunterSub. Mantenha-as em segurança e não compartilhe com terceiros.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display: flex; gap: 0.75rem;">
+        <%= f.submit "💾 Salvar Configurações", style: "flex: 1; padding: 0.875rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 0.9375rem; cursor: pointer; transition: all 0.3s;", onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,212,255,0.35)'", onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='none'" %>
+        <% if @user.api_key.present? %>
+          <button type="button" onclick="clearCredentials()" style="padding: 0.875rem 1.25rem; background: #fee2e2; color: #991b1b; border: 2px solid #fca5a5; border-radius: 10px; font-weight: 600; font-size: 0.9375rem; cursor: pointer;">
+            🗑️ Limpar
+          </button>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Documentation -->
+  <div style="background: #f0f9ff; border-radius: 16px; padding: 1.5rem; border: 1px solid #bae6fd;">
+    <h3 style="font-weight: 700; color: #0c4a6e; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      Como obter suas credenciais
+    </h3>
+    <div style="color: #075985; font-size: 0.875rem; line-height: 1.6;">
+      <p style="margin-bottom: 0.75rem;">1. Acesse o painel do HunterSub</p>
+      <p style="margin-bottom: 0.75rem;">2. Vá em Configurações → API</p>
+      <p style="margin-bottom: 0.75rem;">3. Copie sua API Key e Secret Key</p>
+      <p style="margin-bottom: 0.75rem;">4. Cole aqui e salve</p>
+      <p>5. As vendas e assinaturas serão sincronizadas automaticamente</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function clearCredentials() {
+  if (confirm('Tem certeza que deseja limpar as credenciais? Isso irá desconectar a integração com o HunterSub.')) {
+    document.getElementById('user_api_key').value = '';
+    document.getElementById('user_api_secret').value = '';
+  }
+}
+</script>

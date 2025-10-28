@@ -1,0 +1,139 @@
+<div style="max-width: 1000px;">
+  <%= form_with model: @plan, url: panel_plans_path, local: true do |f| %>
+    <% if @plan.errors.any? %>
+      <div style="background: #fee2e2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+        <strong style="color: #991b1b; font-weight: 600;"><%= pluralize(@plan.errors.count, "erro") %>:</strong>
+        <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #991b1b; font-size: 0.875rem;">
+          <% @plan.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Informações Básicas -->
+    <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); margin-bottom: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #f1f5f9;">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); display: flex; align-items: center; justify-content: center;">
+          <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+          </svg>
+        </div>
+        <div>
+          <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem;">Informações Básicas</h2>
+          <p style="color: #64748b; font-size: 0.875rem;">Nome e descrição do plano</p>
+        </div>
+      </div>
+
+      <div style="display: grid; gap: 1.5rem;">
+        <div>
+          <%= f.label :name, "Nome do Plano", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+          <%= f.text_field :name, placeholder: "Ex: Plano Premium Mensal", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'", required: true %>
+        </div>
+
+        <div>
+          <%= f.label :description, "Descrição", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+          <%= f.text_area :description, rows: 3, placeholder: "Descreva os benefícios e recursos inclusos no plano...", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; resize: vertical; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+          <p style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;">Opcional: Explique o que está incluído neste plano</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Valores e Duração -->
+    <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); margin-bottom: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #f1f5f9;">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); display: flex; align-items: center; justify-content: center;">
+          <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem;">Valores e Duração</h2>
+          <p style="color: #64748b; font-size: 0.875rem;">Preço e período de validade</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+        <div>
+          <%= f.label :price, "Preço (R$)", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+          <%= f.number_field :price, step: 0.01, min: 0, placeholder: "149.90", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#10b981'", onblur: "this.style.borderColor='#e2e8f0'", required: true %>
+          <p style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;">Valor que será cobrado do cliente</p>
+        </div>
+
+        <div>
+          <%= f.label :duration_days, "Duração (dias)", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
+          <%= f.number_field :duration_days, min: 1, placeholder: "30", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#10b981'", onblur: "this.style.borderColor='#e2e8f0'", required: true %>
+          <p style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;">Por quantos dias o plano ficará ativo</p>
+        </div>
+      </div>
+
+      <!-- Sugestões de duração -->
+      <div style="padding: 1rem; background: #f0fdf4; border-radius: 12px; border: 1px solid #bbf7d0;">
+        <div style="display: flex; align-items: start; gap: 0.75rem;">
+          <svg width="20" height="20" fill="none" stroke="#15803d" viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 0.125rem;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <div style="flex: 1;">
+            <div style="font-weight: 600; color: #14532d; font-size: 0.875rem; margin-bottom: 0.25rem;">Sugestões de duração:</div>
+            <div style="color: #166534; font-size: 0.8125rem; line-height: 1.5;">
+              • 30 dias (mensal) • 90 dias (trimestral) • 180 dias (semestral) • 365 dias (anual)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Configurações -->
+    <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); margin-bottom: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #f1f5f9;">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); display: flex; align-items: center; justify-content: center;">
+          <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem;">Configurações</h2>
+          <p style="color: #64748b; font-size: 0.875rem;">Status e disponibilidade</p>
+        </div>
+      </div>
+
+      <div style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border-radius: 12px; padding: 1.5rem; border: 1px solid #ddd6fe;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); display: flex; align-items: center; justify-content: center;">
+            <svg width="20" height="20" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div>
+            <h4 style="font-weight: 700; color: #0a0e27; font-size: 0.9375rem; margin-bottom: 0.25rem;">Status do Plano</h4>
+            <p style="font-size: 0.8125rem; color: #475569;">Defina se o plano estará disponível</p>
+          </div>
+        </div>
+        <label style="display: flex; align-items: center; gap: 0.875rem; padding: 1rem; background: white; border-radius: 10px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;" onmouseover="this.style.borderColor='#8b5cf6'" onmouseout="this.style.borderColor='transparent'">
+          <%= f.check_box :active, checked: true, style: "width: 24px; height: 24px; cursor: pointer; accent-color: #8b5cf6;" %>
+          <div>
+            <span style="font-weight: 600; font-size: 0.9375rem; color: #0a0e27; display: block;">Plano ativo</span>
+            <span style="font-size: 0.8125rem; color: #64748b;">Disponível para venda e assinatura</span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
+      <%= link_to panel_plans_path, style: "padding: 0.875rem 2rem; background: white; border: 2px solid #e2e8f0; color: #475569; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 0.9375rem; transition: all 0.2s;", onmouseover: "this.style.borderColor='#cbd5e1'", onmouseout: "this.style.borderColor='#e2e8f0'" do %>
+        Cancelar
+      <% end %>
+      <%= f.submit "Criar Plano", style: "padding: 0.875rem 2.5rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 0.9375rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,212,255,0.25); transition: all 0.3s;", onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,212,255,0.35)'", onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,212,255,0.25)'" %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

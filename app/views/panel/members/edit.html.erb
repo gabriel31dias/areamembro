@@ -1,0 +1,68 @@
+<div style="max-width: 800px; margin: 0 auto;">
+  <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04);">
+    <div style="margin-bottom: 2rem;">
+      <h1 style="font-weight: 800; color: #0a0e27; font-size: 1.75rem; margin-bottom: 0.5rem;">✏️ Editar Membro</h1>
+      <p style="color: #64748b;">Atualize os dados do membro <%= @member.name || @member.email %></p>
+    </div>
+
+    <%= form_with model: @member, url: panel_member_path(@member), method: :patch, local: true do |f| %>
+      <% if @member.errors.any? %>
+        <div style="background: #fee2e2; border: 2px solid #fca5a5; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+          <h3 style="color: #991b1b; font-weight: 600; margin-bottom: 0.5rem;">
+            <%= pluralize(@member.errors.count, "erro") %> encontrado:
+          </h3>
+          <ul style="margin-left: 1.5rem; color: #991b1b;">
+            <% @member.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+        <div style="grid-column: 1 / -1;">
+          <%= f.label :name, "Nome Completo", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.9375rem;" %>
+          <%= f.text_field :name, placeholder: "Digite o nome completo", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        </div>
+
+        <div style="grid-column: 1 / -1;">
+          <%= f.label :email, "Email", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.9375rem;" %>
+          <%= f.email_field :email, placeholder: "email@exemplo.com", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        </div>
+
+        <div style="grid-column: 1 / -1;">
+          <p style="color: #64748b; font-size: 0.875rem; margin-bottom: 0.75rem;">Deixe em branco se não quiser alterar a senha</p>
+        </div>
+
+        <div>
+          <%= f.label :password, "Nova Senha", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.9375rem;" %>
+          <%= f.password_field :password, placeholder: "Mínimo 6 caracteres", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        </div>
+
+        <div>
+          <%= f.label :password_confirmation, "Confirmar Nova Senha", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.9375rem;" %>
+          <%= f.password_field :password_confirmation, placeholder: "Digite a senha novamente", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        </div>
+
+        <div>
+          <%= f.label :status, "Status", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.9375rem;" %>
+          <%= f.select :status, [['Ativo', 'active'], ['Bloqueado', 'blocked']], {}, style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; background: white; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        </div>
+
+        <div>
+          <%= f.label :subscription_status, "Tipo de Assinatura", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.5rem; font-size: 0.9375rem;" %>
+          <%= f.select :subscription_status, [['Gratuito', 'free'], ['Assinante', 'subscriber']], {}, style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; background: white; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <%= f.submit "Salvar Alterações", style: "flex: 1; padding: 1rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer;" %>
+        <%= link_to "Cancelar", panel_member_path(@member), style: "flex: 1; padding: 1rem; border: 2px solid #e2e8f0; color: #475569; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1rem; text-align: center;" %>
+      </div>
+
+      <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #f1f5f9;">
+        <%= link_to "🗑️ Deletar Membro", panel_member_path(@member), method: :delete, data: { confirm: 'Tem certeza? Esta ação não pode ser desfeita.' }, style: "display: inline-block; padding: 0.75rem 1.5rem; background: #fee2e2; color: #991b1b; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 0.9375rem;" %>
+      </div>
+    <% end %>
+  </div>
+</div>
