@@ -1,11 +1,17 @@
 class User < ApplicationRecord
   has_secure_password validations: false
   
+  belongs_to :owner, class_name: 'User', optional: true
+  has_many :members, class_name: 'User', foreign_key: 'owner_id', dependent: :nullify
+  
+  has_many :courses, dependent: :destroy
   has_many :course_progresses, dependent: :destroy
-  has_many :courses, through: :course_progresses
+  has_many :enrolled_courses, through: :course_progresses, source: :course
+  has_many :plans, dependent: :destroy
+  has_many :ebooks, dependent: :destroy
   has_many :sales, dependent: :destroy
   has_many :user_plans, dependent: :destroy
-  has_many :plans, through: :user_plans
+  has_many :subscribed_plans, through: :user_plans, source: :plan
   
   validates :email, presence: true, uniqueness: true
   validates :role, presence: true, inclusion: { in: %w[admin user member] }

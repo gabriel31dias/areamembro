@@ -66,7 +66,22 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_28_061343) do
     t.string "title", null: false
     t.integer "total_lessons", default: 0
     t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.index ["active"], name: "index_courses_on_active"
+    t.index ["user_id"], name: "index_courses_on_user_id"
+  end
+
+  create_table "ebooks", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.string "author"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "pages", default: 0
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["active"], name: "index_ebooks_on_active"
+    t.index ["user_id"], name: "index_ebooks_on_user_id"
   end
 
   create_table "lesson_progresses", force: :cascade do |t|
@@ -104,7 +119,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_28_061343) do
     t.string "name", null: false
     t.decimal "price", precision: 10, scale: 2, null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.index ["active"], name: "index_plans_on_active"
+    t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
   create_table "sales", force: :cascade do |t|
@@ -142,12 +159,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_28_061343) do
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.string "name"
+    t.integer "owner_id"
     t.string "password_digest", null: false
     t.string "role", null: false
     t.string "status", default: "active"
     t.string "subscription_status", default: "free"
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["owner_id"], name: "index_users_on_owner_id"
     t.index ["role"], name: "index_users_on_role"
     t.index ["status"], name: "index_users_on_status"
     t.index ["subscription_status"], name: "index_users_on_subscription_status"
@@ -157,11 +176,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_28_061343) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "course_progresses", "courses"
   add_foreign_key "course_progresses", "users"
+  add_foreign_key "courses", "users"
+  add_foreign_key "ebooks", "users"
   add_foreign_key "lesson_progresses", "lessons"
   add_foreign_key "lesson_progresses", "users"
   add_foreign_key "lessons", "courses"
+  add_foreign_key "plans", "users"
   add_foreign_key "sales", "plans"
   add_foreign_key "sales", "users"
   add_foreign_key "user_plans", "plans"
   add_foreign_key "user_plans", "users"
+  add_foreign_key "users", "users", column: "owner_id"
 end

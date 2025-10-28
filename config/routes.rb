@@ -34,11 +34,11 @@ Rails.application.routes.draw do
     end
     resources :members
     resources :plans
+    resources :ebooks
     
     # Settings / API Credentials
     get 'settings', to: 'settings#index'
-    post 'settings/generate_credentials', to: 'settings#generate_credentials'
-    delete 'settings/revoke_credentials', to: 'settings#revoke_credentials'
+    patch 'settings', to: 'settings#update'
     
     root to: 'dashboard#index'
   end

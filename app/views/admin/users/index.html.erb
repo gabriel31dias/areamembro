@@ -33,9 +33,9 @@
       </div>
       
       <div class="filter-actions">
-        <%= f.submit "Filtrar", class: "btn btn-primary btn-sm" %>
+        <%= f.submit "Filtrar", class: "btn btn-primary", style: "padding: 0.75rem 1.5rem; font-size: 0.9375rem;" %>
         <% if params[:search].present? || params[:role].present? || params[:status].present? %>
-          <%= link_to "Limpar", admin_users_path, class: "btn btn-sm", style: "background: #e2e8f0; color: #2d3748;" %>
+          <%= link_to "Limpar", admin_users_path, class: "btn", style: "background: #e2e8f0; color: #2d3748; padding: 0.75rem 1.5rem; font-size: 0.9375rem;" %>
         <% end %>
       </div>
     </div>

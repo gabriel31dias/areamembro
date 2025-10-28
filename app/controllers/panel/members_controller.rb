@@ -3,7 +3,7 @@ module Panel
     before_action :set_member, only: [:show, :edit, :update, :destroy]
 
     def index
-      @members = User.where(role: 'member').order(created_at: :desc)
+      @members = current_panel_user.members.where(role: 'member').order(created_at: :desc)
       
       @members = @members.where("name LIKE ? OR email LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if params[:search].present?
       @members = @members.where(status: params[:status]) if params[:status].present?
@@ -22,7 +22,7 @@ module Panel
     end
 
     def create
-      @member = User.new(member_params.merge(role: 'member'))
+      @member = current_panel_user.members.build(member_params.merge(role: 'member'))
       
       if @member.save
         redirect_to panel_members_path, notice: 'Membro criado com sucesso!'
@@ -57,7 +57,7 @@ module Panel
     private
 
     def set_member
-      @member = User.find(params[:id])
+      @member = current_panel_user.members.find(params[:id])
     end
 
     def member_params

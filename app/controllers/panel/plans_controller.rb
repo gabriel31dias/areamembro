@@ -3,7 +3,7 @@ module Panel
     before_action :set_plan, only: [:show, :edit, :update, :destroy]
 
     def index
-      @plans = Plan.all.order(price: :asc)
+      @plans = current_panel_user.plans.order(price: :asc)
       
       if params[:search].present?
         @plans = @plans.where("name LIKE ? OR description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
@@ -26,7 +26,7 @@ module Panel
     end
 
     def create
-      @plan = Plan.new(plan_params)
+      @plan = current_panel_user.plans.build(plan_params)
       
       if @plan.save
         redirect_to panel_plans_path, notice: 'Plano criado com sucesso!'
@@ -54,7 +54,7 @@ module Panel
     private
 
     def set_plan
-      @plan = Plan.find(params[:id])
+      @plan = current_panel_user.plans.find(params[:id])
     end
 
     def plan_params

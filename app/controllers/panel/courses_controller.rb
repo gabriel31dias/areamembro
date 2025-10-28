@@ -3,7 +3,7 @@ module Panel
     before_action :set_course, only: [:show, :edit, :update, :destroy]
 
     def index
-      @courses = Course.all.order(created_at: :desc)
+      @courses = current_panel_user.courses.order(created_at: :desc)
       
       # Busca
       if params[:search].present?
@@ -28,7 +28,7 @@ module Panel
     end
 
     def create
-      @course = Course.new(course_params)
+      @course = current_panel_user.courses.build(course_params)
       
       if params[:photo].present?
         @course.photo.attach(params[:photo])
@@ -64,7 +64,7 @@ module Panel
     private
 
     def set_course
-      @course = Course.find(params[:id])
+      @course = current_panel_user.courses.find(params[:id])
     end
 
     def course_params
