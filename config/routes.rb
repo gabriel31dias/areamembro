@@ -46,6 +46,11 @@ Rails.application.routes.draw do
   # API routes
   namespace :api do
     namespace :v1 do
+      # Provisionamento público de produtores (autorizado via header X-Api-Key)
+      namespace :provisioning do
+        resources :producers, only: [:create]
+      end
+
       namespace :auth do
         post 'admin/login', to: 'admins#login'
         post 'admin/signup', to: 'admins#signup'
