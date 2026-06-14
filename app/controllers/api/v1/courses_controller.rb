@@ -6,8 +6,9 @@ module Api
       before_action :authorize_member, only: [:index, :update_progress]
 
       def index
-        courses = Course.active.order(created_at: :desc)
-        
+        # Member só enxerga os cursos do produtor (owner) ao qual pertence
+        courses = Course.active.where(user_id: @current_user.owner_id).order(created_at: :desc)
+
         courses_with_progress = courses.map do |course|
           progress = CourseProgress.find_by(user_id: @current_user.id, course_id: course.id)
           

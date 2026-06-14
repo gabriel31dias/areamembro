@@ -48,7 +48,7 @@ module Panel
     end
 
     def lesson_params
-      params.require(:lesson).permit(:title, :description, :video_url, :duration_minutes, :order_number)
+      params.require(:lesson).permit(:title, :description, :video_url, :video, :duration_minutes, :order_number)
     end
   end
 end

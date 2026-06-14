@@ -100,10 +100,10 @@
         <div style="padding: 1.25rem; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
             <h3 style="font-weight: 600; color: #0a0e27; font-size: 1rem;"><%= progress.course.title %></h3>
-            <span style="font-weight: 700; color: #00d4ff; font-size: 0.875rem;"><%= progress.progress %>%</span>
+            <span style="font-weight: 700; color: #00d4ff; font-size: 0.875rem;"><%= progress.percentage %>%</span>
           </div>
           <div style="width: 100%; height: 8px; background: #e2e8f0; border-radius: 9999px; overflow: hidden;">
-            <div style="height: 100%; background: linear-gradient(90deg, #00d4ff 0%, #0066ff 100%); width: <%= progress.progress %>%; transition: width 0.3s;"></div>
+            <div style="height: 100%; background: linear-gradient(90deg, #00d4ff 0%, #0066ff 100%); width: <%= progress.percentage %>%; transition: width 0.3s;"></div>
           </div>
           <div style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;">
             Última atividade: <%= progress.updated_at.strftime('%d/%m/%Y %H:%M') %>

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  achievement_key: MyString
+  unlocked_at: 2026-06-13 04:38:16
+
+two:
+  user: two
+  achievement_key: MyString
+  unlocked_at: 2026-06-13 04:38:16

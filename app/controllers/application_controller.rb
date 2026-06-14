@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
+  # Não aplica a checagem nas rotas de API (clientes como curl/app mobile não enviam User-Agent de navegador).
+  allow_browser versions: :modern, unless: -> { request.path.start_with?("/api") }
 
   helper_method :current_admin_user, :admin_logged_in?
 

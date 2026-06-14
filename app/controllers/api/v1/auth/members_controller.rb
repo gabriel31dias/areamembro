@@ -9,13 +9,19 @@ module Api
           
           if user&.authenticate(params[:password])
             token = JwtService.encode(user_id: user.id, role: user.role)
-            render json: { 
-              token: token, 
-              user: { 
-                id: user.id, 
-                email: user.email, 
-                role: user.role 
-              } 
+
+            Activity.track(user, :login,
+              title: 'Login',
+              description: 'Você acessou a área de membros',
+              metadata: {})
+
+            render json: {
+              token: token,
+              user: {
+                id: user.id,
+                email: user.email,
+                role: user.role
+              }
             }, status: :ok
           else
             render json: { error: 'Invalid credentials' }, status: :unauthorized

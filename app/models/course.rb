@@ -3,6 +3,8 @@ class Course < ApplicationRecord
   has_one_attached :photo
   has_many :course_progresses, dependent: :destroy
   has_many :lessons, dependent: :destroy
+  has_many :quizzes, through: :lessons
+  has_many :certificates, dependent: :destroy
   has_many :members, through: :course_progresses, source: :user
 
   accepts_nested_attributes_for :lessons, allow_destroy: true, reject_if: :all_blank

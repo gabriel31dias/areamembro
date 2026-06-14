@@ -1,3 +1,25 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trix@2.1.1/dist/trix.css">
+<script src="https://cdn.jsdelivr.net/npm/trix@2.1.1/dist/trix.umd.min.js"></script>
+<style>
+  trix-editor {
+    min-height: 120px;
+    border: 2px solid #e2e8f0;
+    border-radius: 0 0 10px 10px;
+    font-size: 0.9375rem;
+    background: white;
+  }
+  trix-toolbar .trix-button-group {
+    border-color: #e2e8f0;
+  }
+  trix-toolbar {
+    border: 2px solid #e2e8f0;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    padding: 0.375rem;
+    background: #f8fafc;
+  }
+</style>
+
 <div style="max-width: 800px; margin: 0 auto; padding: 1rem;">
   <div style="margin-bottom: 2rem;">
     <h1 style="font-weight: 800; color: #0a0e27; font-size: 2rem; margin-bottom: 0.5rem;">⚙️ Configurações</h1>
@@ -71,6 +93,194 @@
     <% end %>
   </div>
 
+  <!-- Tema da Área de Membros -->
+  <div style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.06); margin-bottom: 1.5rem;">
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+      <div style="width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, <%= @theme.primary_color %> 0%, <%= @theme.secondary_color %> 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);">
+        <svg width="28" height="28" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+        </svg>
+      </div>
+      <div>
+        <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.25rem; margin-bottom: 0.25rem;">Tema da Área de Membros</h2>
+        <p style="color: #64748b; font-size: 0.875rem;">Personalize as cores que seus alunos veem</p>
+      </div>
+    </div>
+
+    <% if @theme.errors.any? %>
+      <div style="background: #fee2e2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+        <strong style="color: #991b1b; font-weight: 600;"><%= pluralize(@theme.errors.count, "erro") %>:</strong>
+        <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #991b1b; font-size: 0.875rem;">
+          <% @theme.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with model: @theme, url: panel_settings_path, method: :patch, local: true, multipart: true do |f| %>
+      <!-- Título da área de membros -->
+      <div style="margin-bottom: 1.75rem;">
+        <%= f.label :member_area_title, "📛 Título da área de membros", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+        <%= f.text_field :member_area_title, placeholder: "Ex: Área de Membros, Academy, Escola...", oninput: "updateTitlePreview(this.value)", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">Nome exibido para seus alunos no topo da área de membros.</p>
+      </div>
+
+      <!-- Descrição primária (HTML) -->
+      <div style="margin-bottom: 1.75rem;">
+        <label style="display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;">📝 Descrição primária</label>
+        <input type="hidden" id="theme_primary_description" name="theme[primary_description]" value="<%= @theme.primary_description %>">
+        <trix-editor input="theme_primary_description"></trix-editor>
+        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">Texto de destaque/boas-vindas. Aceita formatação (negrito, listas, links).</p>
+      </div>
+
+      <!-- Descrição secundária (HTML) -->
+      <div style="margin-bottom: 1.75rem;">
+        <label style="display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;">📄 Descrição secundária</label>
+        <input type="hidden" id="theme_secondary_description" name="theme[secondary_description]" value="<%= @theme.secondary_description %>">
+        <trix-editor input="theme_secondary_description"></trix-editor>
+        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">Texto complementar (instruções, regras, etc.).</p>
+      </div>
+
+      <!-- Logo da área de membros -->
+      <div style="margin-bottom: 1.75rem;">
+        <label style="display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;">🖼️ Logo da área de membros</label>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div id="logo-preview-box" style="width: 96px; height: 96px; border-radius: 12px; border: 2px solid #e2e8f0; background: <%= @theme.background_color %>; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+            <% if @theme.logo.attached? %>
+              <img src="<%= @theme.logo_url %>" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            <% else %>
+              <span style="font-size: 0.6875rem; color: #94a3b8; text-align: center; padding: 0.5rem;">Sem logo</span>
+            <% end %>
+          </div>
+          <div style="flex: 1;">
+            <%= f.file_field :logo, accept: "image/png,image/jpeg,image/webp,image/svg+xml", onchange: "previewLogo(this)", style: "width: 100%; padding: 0.625rem; border: 2px dashed #e2e8f0; border-radius: 10px; font-size: 0.8125rem; background: #f8fafc;" %>
+            <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">PNG, JPG, WEBP ou SVG (máx. 5MB). Recomendado fundo transparente.</p>
+            <% if @theme.logo.attached? %>
+              <label style="display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.625rem; padding: 0.5rem 0.75rem; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; cursor: pointer; font-size: 0.8125rem; color: #991b1b; font-weight: 600;">
+                <%= check_box_tag "theme[remove_logo]", "1", false %>
+                🗑️ Remover logo ao salvar
+              </label>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Temas prontos -->
+      <div style="margin-bottom: 1.75rem;">
+        <p style="font-weight: 600; color: #0a0e27; margin-bottom: 0.875rem; font-size: 0.875rem;">✨ Temas prontos</p>
+        <% Theme::PRESETS.group_by { |p| p[:gender] }.each do |gender, presets| %>
+          <p style="font-size: 0.75rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.625rem;">
+            <%= { 'masculino' => 'Masculinos', 'feminino' => 'Femininos', 'design' => 'Inspirados em designs famosos' }[gender] %>
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem;">
+            <% presets.each do |p| %>
+              <button type="button"
+                      onclick="applyPreset(this)"
+                      data-primary="<%= p[:primary_color] %>"
+                      data-secondary="<%= p[:secondary_color] %>"
+                      data-background="<%= p[:background_color] %>"
+                      data-surface="<%= p[:surface_color] %>"
+                      data-text="<%= p[:text_color] %>"
+                      data-muted="<%= p[:muted_text_color] %>"
+                      style="text-align: left; padding: 0; border: 2px solid #e2e8f0; border-radius: 12px; background: white; cursor: pointer; overflow: hidden; transition: all 0.2s;"
+                      onmouseover="this.style.borderColor='#6366f1'; this.style.transform='translateY(-2px)'"
+                      onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
+                <div style="height: 40px; background: <%= p[:background_color] %>; display: flex; align-items: center; gap: 6px; padding: 0 0.75rem;">
+                  <span style="width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(135deg, <%= p[:primary_color] %>, <%= p[:secondary_color] %>); box-shadow: 0 0 0 2px rgba(255,255,255,0.15);"></span>
+                  <span style="width: 12px; height: 12px; border-radius: 4px; background: <%= p[:surface_color] %>; border: 1px solid rgba(255,255,255,0.2);"></span>
+                  <span style="font-size: 0.6875rem; color: <%= p[:text_color] %>;">Aa</span>
+                  <span style="font-size: 0.6875rem; color: <%= p[:muted_text_color] %>;">Aa</span>
+                </div>
+                <div style="padding: 0.5rem 0.75rem; font-size: 0.8125rem; font-weight: 600; color: #0a0e27;"><%= p[:name] %></div>
+              </button>
+            <% end %>
+          </div>
+        <% end %>
+        <p style="font-size: 0.75rem; color: #64748b;">Clique em um tema para aplicar e depois salve. Você pode ajustar as cores manualmente abaixo.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 1.75rem;">
+        <!-- Primária -->
+        <div>
+          <%= f.label :primary_color, "Cor Primária", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+          <div style="display: flex; align-items: center; gap: 0.625rem;">
+            <%= f.color_field :primary_color, oninput: "syncColor(this, 'primary')", style: "width: 52px; height: 44px; border: 2px solid #e2e8f0; border-radius: 10px; padding: 2px; cursor: pointer; background: white;" %>
+            <input type="text" id="primary_hex" value="<%= @theme.primary_color %>" oninput="syncHex(this, 'primary')" style="flex: 1; min-width: 0; padding: 0.625rem 0.75rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.8125rem; font-family: monospace; text-transform: uppercase;">
+          </div>
+        </div>
+
+        <!-- Secundária -->
+        <div>
+          <%= f.label :secondary_color, "Cor Secundária", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+          <div style="display: flex; align-items: center; gap: 0.625rem;">
+            <%= f.color_field :secondary_color, oninput: "syncColor(this, 'secondary')", style: "width: 52px; height: 44px; border: 2px solid #e2e8f0; border-radius: 10px; padding: 2px; cursor: pointer; background: white;" %>
+            <input type="text" id="secondary_hex" value="<%= @theme.secondary_color %>" oninput="syncHex(this, 'secondary')" style="flex: 1; min-width: 0; padding: 0.625rem 0.75rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.8125rem; font-family: monospace; text-transform: uppercase;">
+          </div>
+        </div>
+
+        <!-- Fundo -->
+        <div>
+          <%= f.label :background_color, "Cor de Fundo", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+          <div style="display: flex; align-items: center; gap: 0.625rem;">
+            <%= f.color_field :background_color, oninput: "syncColor(this, 'background')", style: "width: 52px; height: 44px; border: 2px solid #e2e8f0; border-radius: 10px; padding: 2px; cursor: pointer; background: white;" %>
+            <input type="text" id="background_hex" value="<%= @theme.background_color %>" oninput="syncHex(this, 'background')" style="flex: 1; min-width: 0; padding: 0.625rem 0.75rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.8125rem; font-family: monospace; text-transform: uppercase;">
+          </div>
+        </div>
+
+        <!-- Superfície (cards/sidebar) -->
+        <div>
+          <%= f.label :surface_color, "Superfície (cards/sidebar)", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+          <div style="display: flex; align-items: center; gap: 0.625rem;">
+            <%= f.color_field :surface_color, oninput: "syncColor(this, 'surface')", style: "width: 52px; height: 44px; border: 2px solid #e2e8f0; border-radius: 10px; padding: 2px; cursor: pointer; background: white;" %>
+            <input type="text" id="surface_hex" value="<%= @theme.surface_color %>" oninput="syncHex(this, 'surface')" style="flex: 1; min-width: 0; padding: 0.625rem 0.75rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.8125rem; font-family: monospace; text-transform: uppercase;">
+          </div>
+        </div>
+
+        <!-- Texto -->
+        <div>
+          <%= f.label :text_color, "Cor do Texto", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+          <div style="display: flex; align-items: center; gap: 0.625rem;">
+            <%= f.color_field :text_color, oninput: "syncColor(this, 'text')", style: "width: 52px; height: 44px; border: 2px solid #e2e8f0; border-radius: 10px; padding: 2px; cursor: pointer; background: white;" %>
+            <input type="text" id="text_hex" value="<%= @theme.text_color %>" oninput="syncHex(this, 'text')" style="flex: 1; min-width: 0; padding: 0.625rem 0.75rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.8125rem; font-family: monospace; text-transform: uppercase;">
+          </div>
+        </div>
+
+        <!-- Texto Secundário -->
+        <div>
+          <%= f.label :muted_text_color, "Texto Secundário", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+          <div style="display: flex; align-items: center; gap: 0.625rem;">
+            <%= f.color_field :muted_text_color, oninput: "syncColor(this, 'muted')", style: "width: 52px; height: 44px; border: 2px solid #e2e8f0; border-radius: 10px; padding: 2px; cursor: pointer; background: white;" %>
+            <input type="text" id="muted_hex" value="<%= @theme.muted_text_color %>" oninput="syncHex(this, 'muted')" style="flex: 1; min-width: 0; padding: 0.625rem 0.75rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.8125rem; font-family: monospace; text-transform: uppercase;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div style="margin-bottom: 1.75rem;">
+        <p style="font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;">Pré-visualização</p>
+        <div id="theme-preview" style="border-radius: 14px; padding: 1.5rem; background: <%= @theme.background_color %>; border: 1px solid #e2e8f0;">
+          <div id="preview-bar" style="height: 44px; border-radius: 10px; background: linear-gradient(135deg, <%= @theme.primary_color %> 0%, <%= @theme.secondary_color %> 100%); display: flex; align-items: center; padding: 0 1rem; color: white; font-weight: 700; font-size: 0.875rem; margin-bottom: 1rem;"><%= @theme.member_area_title %></div>
+          <div id="preview-card" style="border-radius: 12px; padding: 1.25rem; background: <%= @theme.surface_color %>; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 1rem;">
+            <div id="preview-title" style="font-weight: 700; font-size: 1rem; margin-bottom: 0.375rem; color: <%= @theme.text_color %>;">Título do curso</div>
+            <div id="preview-muted" style="font-size: 0.8125rem; color: <%= @theme.muted_text_color %>;">Texto secundário · 12 aulas · 3h 20min</div>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <button type="button" id="preview-btn-primary" style="padding: 0.625rem 1.25rem; border-radius: 10px; border: none; color: white; font-weight: 600; font-size: 0.8125rem; background: <%= @theme.primary_color %>;">Botão primário</button>
+            <button type="button" id="preview-btn-secondary" style="padding: 0.625rem 1.25rem; border-radius: 10px; border: none; color: white; font-weight: 600; font-size: 0.8125rem; background: <%= @theme.secondary_color %>;">Secundário</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem;">
+        <%= f.submit "🎨 Salvar Tema", style: "flex: 1; padding: 0.875rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 0.9375rem; cursor: pointer; transition: all 0.3s;", onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,212,255,0.35)'", onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='none'" %>
+        <button type="button" onclick="resetTheme()" style="padding: 0.875rem 1.25rem; background: white; color: #475569; border: 2px solid #e2e8f0; border-radius: 10px; font-weight: 600; font-size: 0.9375rem; cursor: pointer; transition: all 0.2s; white-space: nowrap;" onmouseover="this.style.borderColor='#cbd5e1'; this.style.background='#f8fafc'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.background='white'">
+          ↺ Restaurar padrão
+        </button>
+      </div>
+    <% end %>
+  </div>
+
   <!-- Documentation -->
   <div style="background: #f0f9ff; border-radius: 16px; padding: 1.5rem; border: 1px solid #bae6fd;">
     <h3 style="font-weight: 700; color: #0c4a6e; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
@@ -95,5 +305,104 @@ function clearCredentials() {
     document.getElementById('user_api_key').value = '';
     document.getElementById('user_api_secret').value = '';
   }
+}
+
+// --- Tema: sincroniza color picker <-> campo hex e atualiza o preview ---
+// mapa: chave curta -> { picker: id do <input type=color>, hex: id do campo de texto }
+const THEME_FIELDS = {
+  primary:    { picker: 'theme_primary_color',    hex: 'primary_hex' },
+  secondary:  { picker: 'theme_secondary_color',  hex: 'secondary_hex' },
+  background: { picker: 'theme_background_color',  hex: 'background_hex' },
+  surface:    { picker: 'theme_surface_color',     hex: 'surface_hex' },
+  text:       { picker: 'theme_text_color',        hex: 'text_hex' },
+  muted:      { picker: 'theme_muted_text_color',  hex: 'muted_hex' }
+};
+
+// cores padrão do sistema (vindas do model Theme::DEFAULTS)
+const THEME_DEFAULTS = {
+  primary:    '<%= Theme::DEFAULTS[:primary_color] %>',
+  secondary:  '<%= Theme::DEFAULTS[:secondary_color] %>',
+  background: '<%= Theme::DEFAULTS[:background_color] %>',
+  surface:    '<%= Theme::DEFAULTS[:surface_color] %>',
+  text:       '<%= Theme::DEFAULTS[:text_color] %>',
+  muted:      '<%= Theme::DEFAULTS[:muted_text_color] %>'
+};
+
+function pickerEl(kind) { return document.getElementById(THEME_FIELDS[kind].picker); }
+function hexEl(kind)    { return document.getElementById(THEME_FIELDS[kind].hex); }
+
+// Trix: bloqueia anexos de arquivo (não há backend de upload de anexos)
+document.addEventListener("trix-file-accept", function (e) { e.preventDefault(); });
+
+// Atualiza o título na barra de preview ao digitar
+function updateTitlePreview(value) {
+  document.getElementById('preview-bar').textContent = value || 'CATÁLOGO OFICIAL ALURADEV';
+}
+
+// Mostra o logo selecionado no box de preview, antes de salvar
+function previewLogo(input) {
+  const box = document.getElementById('logo-preview-box');
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  box.innerHTML = '<img src="' + url + '" alt="Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">';
+}
+
+// Restaura todos os campos para as cores padrão (aplica ao salvar)
+function resetTheme() {
+  applyColors(THEME_DEFAULTS);
+}
+
+// Aplica um tema pronto (lê os data-* do botão clicado)
+function applyPreset(btn) {
+  applyColors({
+    primary:    btn.dataset.primary,
+    secondary:  btn.dataset.secondary,
+    background: btn.dataset.background,
+    surface:    btn.dataset.surface,
+    text:       btn.dataset.text,
+    muted:      btn.dataset.muted
+  });
+}
+
+// Preenche todos os pickers + campos hex e atualiza o preview
+function applyColors(colors) {
+  Object.keys(colors).forEach(function (kind) {
+    const v = colors[kind];
+    if (!v) return;
+    pickerEl(kind).value = v;
+    hexEl(kind).value = v.toUpperCase();
+  });
+  updatePreview();
+}
+
+function syncColor(input, kind) {        // picker mudou -> atualiza hex
+  hexEl(kind).value = input.value.toUpperCase();
+  updatePreview();
+}
+
+function syncHex(input, kind) {          // texto hex mudou -> atualiza picker
+  let v = input.value.trim();
+  if (/^#([0-9a-fA-F]{6})$/.test(v)) {
+    pickerEl(kind).value = v;
+    updatePreview();
+  }
+}
+
+function updatePreview() {
+  const p = pickerEl('primary').value;
+  const s = pickerEl('secondary').value;
+  const b = pickerEl('background').value;
+  const surf = pickerEl('surface').value;
+  const txt = pickerEl('text').value;
+  const muted = pickerEl('muted').value;
+
+  document.getElementById('theme-preview').style.background = b;
+  document.getElementById('preview-bar').style.background = 'linear-gradient(135deg, ' + p + ' 0%, ' + s + ' 100%)';
+  document.getElementById('preview-card').style.background = surf;
+  document.getElementById('preview-title').style.color = txt;
+  document.getElementById('preview-muted').style.color = muted;
+  document.getElementById('preview-btn-primary').style.background = p;
+  document.getElementById('preview-btn-secondary').style.background = s;
 }
 </script>

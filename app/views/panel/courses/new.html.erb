@@ -131,6 +131,31 @@
 </div>
 
 <script>
+  // Lê a duração do vídeo selecionado (metadados, no navegador) e preenche o campo oculto duration_minutes
+  function autoFillDuration(input) {
+    const scope = input.closest('.lesson-item') || input.closest('form');
+    if (!scope) return;
+    const durationField = scope.querySelector('input[name*="[duration_minutes]"]');
+    const display = scope.querySelector('.duration-display');
+    const file = input.files && input.files[0];
+    if (!file || !durationField) return;
+
+    const url = URL.createObjectURL(file);
+    const video = document.createElement('video');
+    video.preload = 'metadata';
+    video.onloadedmetadata = function () {
+      URL.revokeObjectURL(url);
+      const minutes = Math.max(1, Math.round(video.duration / 60));
+      durationField.value = minutes;
+      if (display) display.textContent = '🎬 Duração detectada: ' + minutes + ' min';
+    };
+    video.onerror = function () {
+      URL.revokeObjectURL(url);
+      if (display) display.textContent = '';
+    };
+    video.src = url;
+  }
+
   let lessonIndex = <%= @course.lessons.size %>;
 
   function addLesson() {
@@ -162,7 +187,7 @@
           </button>
         </div>
 
-        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1rem;">
           <div>
             <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;">
               Título da Aula <span style="color: #ef4444;">*</span>
@@ -173,15 +198,14 @@
             <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;">Ordem</label>
             <input type="number" name="course[lessons_attributes][${lessonIndex}][order_number]" value="${nextOrder}" min="0" style="width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; transition: all 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#e2e8f0'">
           </div>
-          <div>
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;">Duração (min)</label>
-            <input type="number" name="course[lessons_attributes][${lessonIndex}][duration_minutes]" value="0" min="0" style="width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; transition: all 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#e2e8f0'">
-          </div>
         </div>
 
         <div style="margin-bottom: 1rem;">
-          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;">URL do Vídeo</label>
-          <input type="url" name="course[lessons_attributes][${lessonIndex}][video_url]" placeholder="https://youtube.com/watch?v=..." style="width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; transition: all 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#e2e8f0'">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;">Vídeo da aula</label>
+          <input type="file" name="course[lessons_attributes][${lessonIndex}][video]" accept="video/mp4,video/webm,video/ogg,video/quicktime" onchange="autoFillDuration(this)" style="width: 100%; padding: 0.75rem 1rem; border: 2px dashed #e2e8f0; border-radius: 10px; font-size: 0.875rem; background: #f8fafc;">
+          <input type="hidden" name="course[lessons_attributes][${lessonIndex}][duration_minutes]" value="0">
+          <p style="margin-top: 0.375rem; font-size: 0.75rem; color: #64748b;">MP4, WEBM, OGG ou MOV (máx. 500MB)</p>
+          <p class="duration-display" style="margin-top: 0.375rem; font-size: 0.75rem; color: #10b981; font-weight: 600;"></p>
         </div>
 
         <div>

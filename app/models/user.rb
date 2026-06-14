@@ -4,6 +4,11 @@ class User < ApplicationRecord
   belongs_to :owner, class_name: 'User', optional: true
   has_many :members, class_name: 'User', foreign_key: 'owner_id', dependent: :nullify
   
+  has_one :theme, dependent: :destroy
+  has_many :activities, dependent: :destroy
+  has_many :user_achievements, dependent: :destroy
+  has_many :quiz_attempts, dependent: :destroy
+  has_many :certificates, dependent: :destroy
   has_many :courses, dependent: :destroy
   has_many :course_progresses, dependent: :destroy
   has_many :enrolled_courses, through: :course_progresses, source: :course

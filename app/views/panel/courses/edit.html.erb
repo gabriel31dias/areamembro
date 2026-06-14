@@ -114,7 +114,7 @@
                       <% if lesson.duration_minutes.present? %>
                         <span>⏱️ <%= lesson.duration_minutes %> min</span>
                       <% end %>
-                      <% if lesson.video_url.present? %>
+                      <% if lesson.has_video? %>
                         <span>🎥 Vídeo</span>
                       <% end %>
                     </div>

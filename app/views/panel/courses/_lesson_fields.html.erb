@@ -5,7 +5,7 @@
     </svg>
   </button>
 
-  <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+  <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1rem;">
     <div>
       <%= f.label :title, "Título da Aula", style: "display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;" %>
       <%= f.text_field :title, placeholder: "Ex: Introdução ao Rails", style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem;", required: true %>
@@ -14,15 +14,18 @@
       <%= f.label :order_number, "Ordem", style: "display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;" %>
       <%= f.number_field :order_number, value: f.object.order_number || 0, min: 0, style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem;" %>
     </div>
-    <div>
-      <%= f.label :duration_minutes, "Duração (min)", style: "display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;" %>
-      <%= f.number_field :duration_minutes, value: f.object.duration_minutes || 0, min: 0, style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem;" %>
-    </div>
   </div>
 
+  <%= f.hidden_field :duration_minutes, value: f.object.duration_minutes || 0 %>
+
   <div style="margin-bottom: 1rem;">
-    <%= f.label :video_url, "URL do Vídeo", style: "display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;" %>
-    <%= f.url_field :video_url, placeholder: "https://youtube.com/watch?v=...", style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem;" %>
+    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.875rem; color: #0a0e27;">Vídeo da aula</label>
+    <% if f.object.video.attached? %>
+      <p style="font-size: 0.8125rem; color: #059669; margin-bottom: 0.5rem;">✓ Vídeo atual: <%= f.object.video.filename %> — envie outro para substituir</p>
+    <% end %>
+    <%= f.file_field :video, accept: "video/mp4,video/webm,video/ogg,video/quicktime", onchange: "autoFillDuration(this)", style: "width: 100%; padding: 0.75rem 1rem; border: 2px dashed #e2e8f0; border-radius: 10px; font-size: 0.875rem; background: #f8fafc;" %>
+    <p style="margin-top: 0.375rem; font-size: 0.75rem; color: #64748b;">MP4, WEBM, OGG ou MOV (máx. 500MB)</p>
+    <p class="duration-display" style="margin-top: 0.375rem; font-size: 0.75rem; color: #10b981; font-weight: 600;"><% if f.object.duration_minutes.to_i > 0 %>🎬 Duração: <%= f.object.duration_minutes %> min<% end %></p>
   </div>
 
   <div>

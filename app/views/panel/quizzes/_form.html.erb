@@ -1,0 +1,115 @@
+<div style="max-width: 900px; margin: 0 auto; padding: 1rem;">
+  <div style="margin-bottom: 1.5rem;">
+    <%= link_to panel_course_path(@course), style: "display: inline-flex; align-items: center; gap: 0.5rem; color: #64748b; text-decoration: none; font-size: 0.875rem;" do %>
+      ← Voltar para o curso
+    <% end %>
+    <h1 style="font-weight: 800; color: #0a0e27; font-size: 1.75rem; margin-top: 0.75rem;">📝 Teste da aula</h1>
+    <p style="color: #64748b; font-size: 0.9375rem;"><%= @lesson.title %></p>
+  </div>
+
+  <%= form_with model: @quiz, url: form_url, method: form_method, local: true do |f| %>
+    <% if @quiz.errors.any? %>
+      <div style="background: #fee2e2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+        <ul style="margin-left: 1.5rem; color: #991b1b; font-size: 0.875rem;">
+          <% @quiz.errors.full_messages.each do |m| %><li><%= m %></li><% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Config do teste -->
+    <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.06); margin-bottom: 1.5rem; display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+      <div>
+        <%= f.label :title, "Título do teste", style: "display: block; font-weight: 600; font-size: 0.875rem; color: #0a0e27; margin-bottom: 0.5rem;" %>
+        <%= f.text_field :title, style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem;", required: true %>
+      </div>
+      <div>
+        <%= f.label :passing_score, "Nota de aprovação (%)", style: "display: block; font-weight: 600; font-size: 0.875rem; color: #0a0e27; margin-bottom: 0.5rem;" %>
+        <%= f.number_field :passing_score, min: 0, max: 100, style: "width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem;" %>
+      </div>
+    </div>
+
+    <!-- Perguntas -->
+    <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.06); margin-bottom: 1.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="font-weight: 700; color: #0a0e27; font-size: 1.125rem;">Perguntas</h2>
+        <button type="button" onclick="addQuestion()" style="padding: 0.625rem 1.25rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 0.875rem; cursor: pointer;">+ Pergunta</button>
+      </div>
+
+      <div id="questions-container">
+        <% @quiz.questions.each_with_index do |question, qi| %>
+          <div class="question-item" style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <strong style="color: #0a0e27; font-size: 0.9375rem;">Pergunta</strong>
+              <button type="button" onclick="this.closest('.question-item').remove()" style="background: #fee2e2; color: #991b1b; border: none; border-radius: 8px; padding: 0.375rem 0.625rem; cursor: pointer; font-size: 0.75rem;">🗑️ Remover</button>
+            </div>
+            <input type="hidden" name="quiz[questions_attributes][<%= qi %>][id]" value="<%= question.id %>">
+            <input type="hidden" name="quiz[questions_attributes][<%= qi %>][order_number]" value="<%= question.order_number || qi + 1 %>">
+            <input type="text" name="quiz[questions_attributes][<%= qi %>][statement]" value="<%= question.statement %>" placeholder="Enunciado da pergunta" style="width: 100%; padding: 0.625rem 0.875rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.875rem; margin-bottom: 0.75rem;" required>
+            <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">Marque a alternativa correta:</p>
+            <div class="options-container">
+              <% question.question_options.each_with_index do |opt, oi| %>
+                <div style="display: flex; align-items: center; gap: 0.625rem; margin-bottom: 0.5rem;">
+                  <input type="radio" name="quiz[questions_attributes][<%= qi %>][correct_index]" value="<%= oi %>" <%= 'checked' if opt.correct %> style="width: 18px; height: 18px; accent-color: #10b981;">
+                  <input type="hidden" name="quiz[questions_attributes][<%= qi %>][question_options_attributes][<%= oi %>][id]" value="<%= opt.id %>">
+                  <input type="text" name="quiz[questions_attributes][<%= qi %>][question_options_attributes][<%= oi %>][text]" value="<%= opt.text %>" placeholder="Alternativa" style="flex: 1; padding: 0.5rem 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.875rem;" required>
+                </div>
+              <% end %>
+            </div>
+            <button type="button" onclick="addOption(this)" data-qindex="<%= qi %>" style="margin-top: 0.25rem; background: #eff6ff; color: #1d4ed8; border: none; border-radius: 8px; padding: 0.375rem 0.75rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">+ Alternativa</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+      <% if @quiz.persisted? %>
+        <%= button_to "🗑️ Excluir teste", panel_course_lesson_quiz_path(@course, @lesson), method: :delete, data: { turbo_confirm: 'Excluir este teste?' }, style: "padding: 0.875rem 1.5rem; background: white; border: 2px solid #fecaca; color: #991b1b; border-radius: 10px; font-weight: 600; cursor: pointer;" %>
+      <% end %>
+      <%= f.submit "💾 Salvar teste", style: "padding: 0.875rem 2rem; background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 0.9375rem; cursor: pointer;" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  let questionIndex = <%= @quiz.questions.size %>;
+
+  function addQuestion() {
+    const qi = questionIndex++;
+    const html = `
+      <div class="question-item" style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <strong style="color: #0a0e27; font-size: 0.9375rem;">Pergunta</strong>
+          <button type="button" onclick="this.closest('.question-item').remove()" style="background: #fee2e2; color: #991b1b; border: none; border-radius: 8px; padding: 0.375rem 0.625rem; cursor: pointer; font-size: 0.75rem;">🗑️ Remover</button>
+        </div>
+        <input type="hidden" name="quiz[questions_attributes][${qi}][order_number]" value="${qi + 1}">
+        <input type="text" name="quiz[questions_attributes][${qi}][statement]" placeholder="Enunciado da pergunta" style="width: 100%; padding: 0.625rem 0.875rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.875rem; margin-bottom: 0.75rem;" required>
+        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">Marque a alternativa correta:</p>
+        <div class="options-container">
+          ${optionRow(qi, 0)}
+          ${optionRow(qi, 1)}
+        </div>
+        <button type="button" onclick="addOption(this)" data-qindex="${qi}" style="margin-top: 0.25rem; background: #eff6ff; color: #1d4ed8; border: none; border-radius: 8px; padding: 0.375rem 0.75rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">+ Alternativa</button>
+      </div>`;
+    document.getElementById('questions-container').insertAdjacentHTML('beforeend', html);
+  }
+
+  function optionRow(qi, oi) {
+    return `
+      <div style="display: flex; align-items: center; gap: 0.625rem; margin-bottom: 0.5rem;">
+        <input type="radio" name="quiz[questions_attributes][${qi}][correct_index]" value="${oi}" ${oi === 0 ? 'checked' : ''} style="width: 18px; height: 18px; accent-color: #10b981;">
+        <input type="text" name="quiz[questions_attributes][${qi}][question_options_attributes][${oi}][text]" placeholder="Alternativa" style="flex: 1; padding: 0.5rem 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.875rem;" required>
+      </div>`;
+  }
+
+  function addOption(btn) {
+    const qi = btn.dataset.qindex;
+    const container = btn.previousElementSibling; // options-container
+    const oi = container.querySelectorAll('input[type="radio"]').length;
+    container.insertAdjacentHTML('beforeend', optionRow(qi, oi));
+  }
+
+  // Em "novo", começa com uma pergunta
+  document.addEventListener('DOMContentLoaded', function () {
+    if (document.querySelectorAll('.question-item').length === 0) addQuestion();
+  });
+</script>

@@ -76,12 +76,21 @@
                 <% if lesson.duration_minutes.present? %>
                   <span>⏱️ <%= lesson.duration_minutes %> min</span>
                 <% end %>
-                <% if lesson.video_url.present? %>
+                <% if lesson.has_video? %>
                   <span>🎥 Vídeo</span>
                 <% end %>
               </div>
             </div>
             <div style="display: flex; gap: 0.5rem;">
+              <% if lesson.quiz.present? %>
+                <%= link_to edit_panel_course_lesson_quiz_path(@course, lesson), style: "padding: 0.5rem 0.75rem; border: 2px solid #d1fae5; background: #ecfdf5; color: #059669; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.8125rem;" do %>
+                  📝 Editar teste
+                <% end %>
+              <% else %>
+                <%= link_to new_panel_course_lesson_quiz_path(@course, lesson), style: "padding: 0.5rem 0.75rem; border: 2px solid #e2e8f0; color: #475569; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.8125rem;" do %>
+                  ➕ Cadastrar teste
+                <% end %>
+              <% end %>
               <%= link_to edit_panel_course_lesson_path(@course, lesson), style: "padding: 0.5rem 0.75rem; border: 2px solid #e2e8f0; color: #475569; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.8125rem;" do %>
                 ✏️
               <% end %>

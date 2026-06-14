@@ -70,7 +70,7 @@ module Panel
     def course_params
       params.require(:course).permit(
         :title, :description, :total_lessons, :active,
-        lessons_attributes: [:id, :title, :description, :video_url, :order_number, :duration_minutes, :_destroy]
+        lessons_attributes: [:id, :title, :description, :video_url, :video, :order_number, :duration_minutes, :_destroy]
       )
     end
   end

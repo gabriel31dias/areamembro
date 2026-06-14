@@ -30,7 +30,9 @@ Rails.application.routes.draw do
     
     get 'dashboard', to: 'dashboard#index'
     resources :courses do
-      resources :lessons, except: [:index, :show]
+      resources :lessons, except: [:index, :show] do
+        resource :quiz, only: [:new, :create, :edit, :update, :destroy]
+      end
     end
     resources :members
     resources :plans
@@ -60,27 +62,51 @@ Rails.application.routes.draw do
         
         post 'member/login', to: 'members#login'
         post 'member/signup', to: 'members#signup'
+
+        # Dados do usuário autenticado (qualquer role)
+        get 'me', to: 'sessions#me'
       end
 
       # Public plans listing
       resources :plans, only: [:index]
+
+      # Tema da área de membros (cores do produtor do member)
+      resource :theme, only: [:show]
+
+      # Histórico de atividades do member
+      resources :activities, only: [:index]
+
+      # Conquistas do member
+      resources :achievements, only: [:index]
 
       # Courses routes (members only)
       resources :courses, only: [:index] do
         member do
           patch :update_progress
         end
-        
+
         # Lessons for a specific course
         resources :lessons, only: [:index]
       end
 
-      # Lesson progress update
+      # Lesson progress update + quiz da aula
       resources :lessons, only: [] do
         member do
           patch :update_progress
         end
+        # Quiz da aula
+        resource :quiz, only: [:show]
       end
+
+      # Submissão de quiz (dispara "Mestre dos Testes")
+      resources :quizzes, only: [] do
+        member do
+          post :submit
+        end
+      end
+
+      # Certificados do member
+      resources :certificates, only: [:index, :show]
 
       # Admin routes
       namespace :admin do

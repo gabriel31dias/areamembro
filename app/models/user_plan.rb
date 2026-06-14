@@ -9,6 +9,7 @@ class UserPlan < ApplicationRecord
   scope :expired, -> { where('expires_at <= ?', Time.current) }
 
   before_create :set_expiration_date
+  after_create :track_subscription
 
   def active?
     status == 'active' && expires_at > Time.current
@@ -22,5 +23,13 @@ class UserPlan < ApplicationRecord
 
   def set_expiration_date
     self.expires_at = Time.current + plan.duration_days.days if expires_at.nil?
+  end
+
+  def track_subscription
+    Activity.track(user, :subscription_started,
+      title: "Assinatura iniciada",
+      description: "Você assinou o plano #{plan.name}",
+      metadata: { plan_id: plan_id, plan_name: plan.name })
+    Achievement.unlock(user, :premium_subscriber)
   end
 end

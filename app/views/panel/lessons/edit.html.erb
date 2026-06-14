@@ -21,7 +21,7 @@
       <p style="color: #64748b; font-size: 1rem;">Atualize as informações da aula</p>
     </div>
 
-    <%= form_with model: [@course, @lesson], url: panel_course_lesson_path(@course, @lesson), method: :patch, local: true do |f| %>
+    <%= form_with model: [@course, @lesson], url: panel_course_lesson_path(@course, @lesson), method: :patch, local: true, multipart: true do |f| %>
       <% if @lesson.errors.any? %>
         <div style="background: #fee2e2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 1.25rem; margin-bottom: 2rem;">
           <div style="display: flex; align-items: start; gap: 1rem;">
@@ -62,18 +62,20 @@
           <%= f.text_area :description, rows: 3, placeholder: "Descreva o conteúdo da aula...", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; resize: vertical; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'; this.style.boxShadow='0 0 0 3px rgba(0,212,255,0.1)'", onblur: "this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'" %>
         </div>
 
-        <!-- URL do Vídeo e Duração -->
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem;">
-          <div>
-            <%= f.label :video_url, "URL do Vídeo", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
-            <%= f.url_field :video_url, placeholder: "https://youtube.com/watch?v=...", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'; this.style.boxShadow='0 0 0 3px rgba(0,212,255,0.1)'", onblur: "this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'" %>
-            <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">Link do YouTube, Vimeo ou outro</p>
-          </div>
-
-          <div>
-            <%= f.label :duration_minutes, "Duração (min)", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
-            <%= f.number_field :duration_minutes, min: 1, placeholder: "30", style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'; this.style.boxShadow='0 0 0 3px rgba(0,212,255,0.1)'", onblur: "this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'" %>
-          </div>
+        <!-- Upload de Vídeo (duração detectada automaticamente) -->
+        <div>
+          <%= f.label :video, "Vídeo da aula", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+          <% if @lesson.video.attached? %>
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; padding: 0.75rem 1rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px;">
+              <span style="font-size: 0.875rem; color: #059669; font-weight: 600;">✓ <%= @lesson.video.filename %></span>
+              <video controls style="height: 60px; border-radius: 8px;" src="<%= @lesson.video_file_url %>"></video>
+            </div>
+            <p style="margin-bottom: 0.5rem; font-size: 0.75rem; color: #64748b;">Envie um novo arquivo para substituir o atual</p>
+          <% end %>
+          <%= f.file_field :video, accept: "video/mp4,video/webm,video/ogg,video/quicktime", onchange: "autoFillDuration(this)", style: "width: 100%; padding: 0.875rem 1rem; border: 2px dashed #e2e8f0; border-radius: 12px; font-size: 0.9375rem; background: #f8fafc;" %>
+          <%= f.hidden_field :duration_minutes, value: f.object.duration_minutes || 0 %>
+          <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">MP4, WEBM, OGG ou MOV (máx. 500MB) — a duração é detectada automaticamente</p>
+          <p class="duration-display" style="margin-top: 0.5rem; font-size: 0.75rem; color: #10b981; font-weight: 600;"><% if @lesson.duration_minutes.to_i > 0 %>🎬 Duração: <%= @lesson.duration_minutes %> min<% end %></p>
         </div>
       </div>
 
@@ -87,3 +89,30 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  // Lê a duração do vídeo selecionado (metadados, no navegador) e preenche o campo oculto duration_minutes
+  function autoFillDuration(input) {
+    const scope = input.closest('form');
+    if (!scope) return;
+    const durationField = scope.querySelector('input[name*="[duration_minutes]"]');
+    const display = scope.querySelector('.duration-display');
+    const file = input.files && input.files[0];
+    if (!file || !durationField) return;
+
+    const url = URL.createObjectURL(file);
+    const video = document.createElement('video');
+    video.preload = 'metadata';
+    video.onloadedmetadata = function () {
+      URL.revokeObjectURL(url);
+      const minutes = Math.max(1, Math.round(video.duration / 60));
+      durationField.value = minutes;
+      if (display) display.textContent = '🎬 Duração detectada: ' + minutes + ' min';
+    };
+    video.onerror = function () {
+      URL.revokeObjectURL(url);
+      if (display) display.textContent = '';
+    };
+    video.src = url;
+  }
+</script>
