@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_13_081044) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -249,6 +249,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_13_081044) do
     t.string "api_key"
     t.string "api_secret"
     t.datetime "blocked_at"
+    t.string "cnpj_ou_cpf"
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.string "name"
@@ -258,6 +259,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_13_081044) do
     t.string "status", default: "active"
     t.string "subscription_status", default: "free"
     t.datetime "updated_at", null: false
+    t.index ["cnpj_ou_cpf"], name: "index_users_on_cnpj_ou_cpf"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["owner_id"], name: "index_users_on_owner_id"
     t.index ["role"], name: "index_users_on_role"

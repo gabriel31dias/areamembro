@@ -30,12 +30,7 @@ module Api
 
           render json: {
             token: token,
-            producer: {
-              id: user.id,
-              email: user.email,
-              name: user.name,
-              role: user.role
-            },
+            producer: producer_payload(user),
             theme: theme_payload(theme)
           }, status: :created
         rescue ActiveRecord::RecordInvalid => e
@@ -44,7 +39,35 @@ module Api
           render json: { errors: [e.message] }, status: :unprocessable_entity
         end
 
+        # GET /api/v1/provisioning/producers?cnpj_ou_cpf=...
+        # Lista todas as empresas (produtores) cadastradas com o CNPJ/CPF informado.
+        def index
+          cnpj = params[:cnpj_ou_cpf].to_s.strip
+
+          if cnpj.blank?
+            return render json: { errors: ["Informe o parâmetro cnpj_ou_cpf"] }, status: :unprocessable_entity
+          end
+
+          producers = User.where(role: "user", cnpj_ou_cpf: cnpj).order(:created_at)
+
+          render json: {
+            cnpj_ou_cpf: cnpj,
+            count: producers.size,
+            producers: producers.map { |user| producer_payload(user) }
+          }, status: :ok
+        end
+
         private
+
+        def producer_payload(user)
+          {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            cnpj_ou_cpf: user.cnpj_ou_cpf
+          }
+        end
 
         class LogoDownloadError < StandardError; end
 
@@ -61,7 +84,7 @@ module Api
         end
 
         def user_params
-          params.permit(:email, :password, :name, :api_key, :api_secret)
+          params.permit(:email, :password, :name, :api_key, :api_secret, :cnpj_ou_cpf)
         end
 
         # Só repassa os campos do tema que vieram no payload; ausentes caem no Theme::DEFAULTS.

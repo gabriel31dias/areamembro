@@ -50,7 +50,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # Provisionamento público de produtores (autorizado via header X-Api-Key)
       namespace :provisioning do
-        resources :producers, only: [:create]
+        resources :producers, only: [:create, :index]
       end
 
       namespace :auth do
