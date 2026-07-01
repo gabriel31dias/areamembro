@@ -34,6 +34,7 @@ module Panel
     def theme_params
       params.require(:theme).permit(
         :member_area_title, :primary_description, :secondary_description,
+        :login_title, :login_subtitle, :hero_title, :hero_highlight, :hero_subtitle,
         :primary_color, :secondary_color, :background_color,
         :surface_color, :text_color, :muted_text_color, :logo
       )

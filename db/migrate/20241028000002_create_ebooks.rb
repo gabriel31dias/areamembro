@@ -1,6 +1,6 @@
 class CreateEbooks < ActiveRecord::Migration[7.0]
   def change
-    create_table :ebooks do |t|
+    create_table :ebooks, id: :string do |t|
       t.string :title, null: false
       t.text :description
       t.string :author

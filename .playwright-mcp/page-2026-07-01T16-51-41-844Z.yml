@@ -1,0 +1,155 @@
+- generic [active] [ref=f4e1]:
+  - complementary [ref=f4e2]:
+    - generic [ref=f4e3]:
+      - img "Blue Vision Co." [ref=f4e5]
+      - generic [ref=f4e6]:
+        - generic [ref=f4e7]: R
+        - generic [ref=f4e8]:
+          - generic [ref=f4e9]: Regular User
+          - generic [ref=f4e10]: user@example.com
+    - navigation [ref=f4e11]:
+      - generic [ref=f4e13]: Menu
+      - link "Dashboard" [ref=f4e14] [cursor=pointer]:
+        - /url: /panel/dashboard
+        - img [ref=f4e15]
+        - text: Dashboard
+      - link "Cursos" [ref=f4e17] [cursor=pointer]:
+        - /url: /panel/courses
+        - img [ref=f4e18]
+        - text: Cursos
+      - link "Membros" [ref=f4e20] [cursor=pointer]:
+        - /url: /panel/members
+        - img [ref=f4e21]
+        - text: Membros
+      - link "Planos" [ref=f4e23] [cursor=pointer]:
+        - /url: /panel/plans
+        - img [ref=f4e24]
+        - text: Planos
+      - link "Ebooks" [ref=f4e26] [cursor=pointer]:
+        - /url: /panel/ebooks
+        - img [ref=f4e27]
+        - text: Ebooks
+      - link "Configurações" [ref=f4e30] [cursor=pointer]:
+        - /url: /panel/settings
+        - img [ref=f4e31]
+        - text: Configurações
+      - link "Sair" [ref=f4e35] [cursor=pointer]:
+        - /url: /panel/logout
+        - img [ref=f4e36]
+        - text: Sair
+  - generic [ref=f4e38]:
+    - generic [ref=f4e39]:
+      - heading "Dashboard" [level=1] [ref=f4e40]
+      - link "Ver área de membros" [ref=f4e41] [cursor=pointer]:
+        - /url: http://localhost:5173/2
+    - main [ref=f4e42]:
+      - generic [ref=f4e46]:
+        - heading "Bem-vindo de volta! 👋" [level=2] [ref=f4e47]
+        - paragraph [ref=f4e48]: Gerencie seus cursos e acompanhe o progresso
+      - generic [ref=f4e49]:
+        - generic [ref=f4e52]:
+          - paragraph [ref=f4e53]: Receita
+          - paragraph [ref=f4e54]: R$ 299,80
+          - paragraph [ref=f4e55]: 2 vendas
+        - generic [ref=f4e56]:
+          - generic [ref=f4e57]:
+            - img [ref=f4e59]
+            - generic [ref=f4e61]:
+              - paragraph [ref=f4e62]: Usuários
+              - paragraph [ref=f4e63]: "4"
+          - paragraph [ref=f4e64]: De 8 total
+        - generic [ref=f4e65]:
+          - generic [ref=f4e66]:
+            - img [ref=f4e68]
+            - generic [ref=f4e70]:
+              - paragraph [ref=f4e71]: Assinantes
+              - paragraph [ref=f4e72]: "3"
+          - paragraph [ref=f4e73]: Planos ativos
+        - generic [ref=f4e74]:
+          - generic [ref=f4e75]:
+            - img [ref=f4e77]
+            - generic [ref=f4e79]:
+              - paragraph [ref=f4e80]: Conversão
+              - paragraph [ref=f4e81]: 37.5%
+          - paragraph [ref=f4e82]: Taxa de assinatura
+      - generic [ref=f4e83]:
+        - generic [ref=f4e84]:
+          - heading "Últimas Vendas" [level=2] [ref=f4e85]
+          - paragraph [ref=f4e86]: Transações recentes completadas
+        - generic [ref=f4e87]:
+          - generic [ref=f4e88]:
+            - generic [ref=f4e89]:
+              - generic [ref=f4e90]: J
+              - generic [ref=f4e91]:
+                - generic [ref=f4e92]: João Silva
+                - generic [ref=f4e93]: Sem plano
+            - generic [ref=f4e94]:
+              - generic [ref=f4e95]: R$ 149,90
+              - generic [ref=f4e96]: 4 months atrás
+          - generic [ref=f4e97]:
+            - generic [ref=f4e98]:
+              - generic [ref=f4e99]: J
+              - generic [ref=f4e100]:
+                - generic [ref=f4e101]: João Silva
+                - generic [ref=f4e102]: Sem plano
+            - generic [ref=f4e103]:
+              - generic [ref=f4e104]: R$ 149,90
+              - generic [ref=f4e105]: 4 months atrás
+      - generic [ref=f4e106]:
+        - generic [ref=f4e107]:
+          - generic [ref=f4e108]:
+            - heading "Cursos Recentes" [level=2] [ref=f4e109]
+            - paragraph [ref=f4e110]: Últimos cursos adicionados
+          - link "Ver todos" [ref=f4e111] [cursor=pointer]:
+            - /url: /panel/courses
+            - text: Ver todos
+            - img [ref=f4e112]
+        - generic [ref=f4e114]:
+          - link "aula teste dwadwdawdwa 📚 5 aulas Ativo" [ref=f4e115] [cursor=pointer]:
+            - /url: /panel/courses/4
+            - generic [ref=f4e117]:
+              - heading "aula teste" [level=3] [ref=f4e118]
+              - paragraph [ref=f4e119]: dwadwdawdwa
+              - generic [ref=f4e120]:
+                - generic [ref=f4e121]: 📚 5 aulas
+                - generic [ref=f4e122]: Ativo
+          - link "React for Beginners Build modern web applications with React 📚 4 aulas Ativo" [ref=f4e123] [cursor=pointer]:
+            - /url: /panel/courses/3
+            - img [ref=f4e124]
+            - generic [ref=f4e125]:
+              - heading "React for Beginners" [level=3] [ref=f4e126]
+              - paragraph [ref=f4e127]: Build modern web applications with React
+              - generic [ref=f4e128]:
+                - generic [ref=f4e129]: 📚 4 aulas
+                - generic [ref=f4e130]: Ativo
+          - link "Advanced JavaScript Master advanced JavaScript concepts and patterns 📚 3 aulas Ativo" [ref=f4e131] [cursor=pointer]:
+            - /url: /panel/courses/2
+            - img [ref=f4e132]
+            - generic [ref=f4e133]:
+              - heading "Advanced JavaScript" [level=3] [ref=f4e134]
+              - paragraph [ref=f4e135]: Master advanced JavaScript concepts and patterns
+              - generic [ref=f4e136]:
+                - generic [ref=f4e137]: 📚 3 aulas
+                - generic [ref=f4e138]: Ativo
+          - link "Ruby on Rails Fundamentals Learn the basics of Ruby on Rails framework 📚 5 aulas Ativo" [ref=f4e139] [cursor=pointer]:
+            - /url: /panel/courses/1
+            - img [ref=f4e140]
+            - generic [ref=f4e141]:
+              - heading "Ruby on Rails Fundamentals" [level=3] [ref=f4e142]
+              - paragraph [ref=f4e143]: Learn the basics of Ruby on Rails framework
+              - generic [ref=f4e144]:
+                - generic [ref=f4e145]: 📚 5 aulas
+                - generic [ref=f4e146]: Ativo
+      - generic [ref=f4e147]:
+        - link "Novo Curso Criar um novo curso" [ref=f4e148] [cursor=pointer]:
+          - /url: /panel/courses/new
+          - img [ref=f4e151]
+          - generic [ref=f4e153]:
+            - generic [ref=f4e154]: Novo Curso
+            - generic [ref=f4e155]: Criar um novo curso
+        - link "Ver Cursos Gerenciar todos os cursos" [ref=f4e156] [cursor=pointer]:
+          - /url: /panel/courses
+          - img [ref=f4e158]
+          - generic [ref=f4e160]:
+            - generic [ref=f4e161]: Ver Cursos
+            - generic [ref=f4e162]: Gerenciar todos os cursos

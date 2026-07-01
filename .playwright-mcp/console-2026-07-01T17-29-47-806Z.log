@@ -1,0 +1,6 @@
+[     113ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3000/assets/javascripts/infinite_scroll.js:0
+[     246ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://127.0.0.1:3000/panel/settings:0
+[     284ms] [ERROR] Error while trying to use the following icon from the Manifest: http://127.0.0.1:3000/logo.webp (Resource size is not correct - typo in the Manifest?) @ http://127.0.0.1:3000/panel/settings:0
+[   21557ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3000/assets/javascripts/infinite_scroll.js:0
+[   21672ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://127.0.0.1:3000/panel/settings:0
+[   21694ms] [ERROR] Error while trying to use the following icon from the Manifest: http://127.0.0.1:3000/logo.webp (Resource size is not correct - typo in the Manifest?) @ http://127.0.0.1:3000/panel/settings:0

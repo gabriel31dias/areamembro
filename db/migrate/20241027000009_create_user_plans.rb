@@ -1,8 +1,8 @@
 class CreateUserPlans < ActiveRecord::Migration[8.1]
   def change
-    create_table :user_plans do |t|
-      t.references :user, null: false, foreign_key: true
-      t.references :plan, null: false, foreign_key: true
+    create_table :user_plans, id: :string do |t|
+      t.references :user, null: false, foreign_key: true, type: :string
+      t.references :plan, null: false, foreign_key: true, type: :string
       t.string :status, default: 'active'
       t.datetime :expires_at
 

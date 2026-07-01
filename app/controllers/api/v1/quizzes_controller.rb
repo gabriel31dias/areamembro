@@ -16,6 +16,11 @@ module Api
           return
         end
 
+        unless lesson.course&.accessible_by?(@current_user)
+          render json: { error: 'Você não tem um plano compatível com este curso.', has_access: false }, status: :forbidden
+          return
+        end
+
         render json: {
           quiz: {
             id: quiz.id,
@@ -40,6 +45,11 @@ module Api
 
         unless quiz
           render json: { error: 'Quiz not found' }, status: :not_found
+          return
+        end
+
+        unless quiz.lesson&.course&.accessible_by?(@current_user)
+          render json: { error: 'Você não tem um plano compatível com este curso.', has_access: false }, status: :forbidden
           return
         end
 

@@ -6,10 +6,19 @@ module Api
       before_action :authorize_member
 
       def index
-        course = Course.find_by(id: params[:course_id])
-        
+        course = Course.find_by(id: params[:course_id], user_id: @current_user.owner_id)
+
         unless course
           render json: { error: 'Course not found' }, status: :not_found
+          return
+        end
+
+        unless course.accessible_by?(@current_user)
+          render json: {
+            error: 'Você não tem um plano compatível com este curso.',
+            has_access: false,
+            plans: course.plans.map { |plan| { id: plan.id, name: plan.name } }
+          }, status: :forbidden
           return
         end
 
@@ -46,9 +55,14 @@ module Api
 
       def update_progress
         lesson = Lesson.find_by(id: params[:id])
-        
+
         unless lesson
           render json: { error: 'Lesson not found' }, status: :not_found
+          return
+        end
+
+        unless lesson.course&.accessible_by?(@current_user)
+          render json: { error: 'Você não tem um plano compatível com este curso.', has_access: false }, status: :forbidden
           return
         end
 

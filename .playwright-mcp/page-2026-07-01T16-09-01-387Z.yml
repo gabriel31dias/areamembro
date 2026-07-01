@@ -1,0 +1,78 @@
+- generic [active] [ref=f3e1]:
+  - complementary [ref=f3e2]:
+    - generic [ref=f3e3]:
+      - img "Blue Vision Co." [ref=f3e5]
+      - generic [ref=f3e6]:
+        - generic [ref=f3e7]: R
+        - generic [ref=f3e8]:
+          - generic [ref=f3e9]: Regular User
+          - generic [ref=f3e10]: user@example.com
+    - navigation [ref=f3e11]:
+      - generic [ref=f3e13]: Menu
+      - link "Dashboard" [ref=f3e14] [cursor=pointer]:
+        - /url: /panel/dashboard
+        - img [ref=f3e15]
+        - text: Dashboard
+      - link "Cursos" [ref=f3e17] [cursor=pointer]:
+        - /url: /panel/courses
+        - img [ref=f3e18]
+        - text: Cursos
+      - link "Membros" [ref=f3e20] [cursor=pointer]:
+        - /url: /panel/members
+        - img [ref=f3e21]
+        - text: Membros
+      - link "Planos" [ref=f3e23] [cursor=pointer]:
+        - /url: /panel/plans
+        - img [ref=f3e24]
+        - text: Planos
+      - link "Ebooks" [ref=f3e26] [cursor=pointer]:
+        - /url: /panel/ebooks
+        - img [ref=f3e27]
+        - text: Ebooks
+      - link "Configurações" [ref=f3e30] [cursor=pointer]:
+        - /url: /panel/settings
+        - img [ref=f3e31]
+        - text: Configurações
+      - link "Sair" [ref=f3e35] [cursor=pointer]:
+        - /url: /panel/logout
+        - img [ref=f3e36]
+        - text: Sair
+  - generic [ref=f3e38]:
+    - generic [ref=f3e39]:
+      - heading "Cursos" [level=1] [ref=f3e40]
+      - link "Ver área de membros" [ref=f3e41] [cursor=pointer]:
+        - /url: http://localhost:5173/2
+    - main [ref=f3e42]:
+      - generic [ref=f3e44]:
+        - generic [ref=f3e45]:
+          - img
+          - textbox "Buscar por título ou descrição..." [ref=f3e46]
+        - generic [ref=f3e47]:
+          - generic [ref=f3e48]: "Status:"
+          - link "Todos" [ref=f3e49] [cursor=pointer]:
+            - /url: /panel/courses
+          - link "✓ Ativos" [ref=f3e50] [cursor=pointer]:
+            - /url: /panel/courses?active=true
+          - link "✕ Inativos" [ref=f3e51] [cursor=pointer]:
+            - /url: /panel/courses?active=false
+      - generic [ref=f3e53]:
+        - img [ref=f3e55]
+        - generic [ref=f3e57]: ✓
+        - generic [ref=f3e58]:
+          - heading "aula teste" [level=3] [ref=f3e59]
+          - paragraph [ref=f3e60]: dwadwdawdwa
+          - generic [ref=f3e61]:
+            - generic [ref=f3e62]:
+              - generic [ref=f3e63]: Aulas
+              - generic [ref=f3e64]: "5"
+            - generic [ref=f3e66]:
+              - generic [ref=f3e67]: Alunos
+              - generic [ref=f3e68]: "1"
+          - generic [ref=f3e69]:
+            - link "Ver" [ref=f3e70] [cursor=pointer]:
+              - /url: /panel/courses/4
+            - link "Editar" [ref=f3e71] [cursor=pointer]:
+              - /url: /panel/courses/4/edit
+      - link [ref=f3e72] [cursor=pointer]:
+        - /url: /panel/courses/new
+        - img [ref=f3e73]

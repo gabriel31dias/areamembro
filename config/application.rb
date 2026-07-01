@@ -16,6 +16,13 @@ module Menberx
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # PKs/FKs em UUID. No SQLite o UUID é uma string gerada pela app
+    # (ver ApplicationRecord e o initializer do Active Storage), pois o banco
+    # não tem gen_random_uuid nem tipo uuid nativo — usamos coluna :string.
+    config.generators do |g|
+      g.orm :active_record, primary_key_type: :string
+    end
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

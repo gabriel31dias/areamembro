@@ -53,6 +53,15 @@
         </div>
       </div>
 
+      <!-- Plano gratuito -->
+      <label style="display: flex; align-items: center; gap: 0.875rem; padding: 1rem; background: #f0fdf4; border-radius: 12px; cursor: pointer; border: 1px solid #bbf7d0; margin-bottom: 1.5rem;">
+        <%= check_box_tag "free_plan", "1", false, id: "plan_free", onchange: "toggleFreePlan(this)", style: "width: 24px; height: 24px; cursor: pointer; accent-color: #10b981;" %>
+        <div>
+          <span style="font-weight: 600; font-size: 0.9375rem; color: #0a0e27; display: block;">Plano gratuito (Free)</span>
+          <span style="font-size: 0.8125rem; color: #64748b;">Marque para oferecer este plano sem custo (preço R$ 0,00)</span>
+        </div>
+      </label>
+
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
         <div>
           <%= f.label :price, "Preço (R$)", style: "display: block; margin-bottom: 0.625rem; font-weight: 700; font-size: 0.875rem; color: #0a0e27;" %>
@@ -129,6 +138,32 @@
     </div>
   <% end %>
 </div>
+
+<script>
+  function toggleFreePlan(cb) {
+    var price = document.getElementById('plan_price');
+    if (!price) return;
+    if (cb.checked) {
+      price.value = '0';
+      price.readOnly = true;
+      price.required = false;
+      price.style.background = '#f1f5f9';
+      price.style.color = '#94a3b8';
+    } else {
+      price.readOnly = false;
+      price.required = true;
+      price.value = '';
+      price.style.background = 'white';
+      price.style.color = '';
+    }
+  }
+
+  // Aplica o estado inicial (caso o form volte com "free" marcado após erro de validação)
+  document.addEventListener('DOMContentLoaded', function () {
+    var cb = document.getElementById('plan_free');
+    if (cb) toggleFreePlan(cb);
+  });
+</script>
 
 <style>
   @media (max-width: 768px) {

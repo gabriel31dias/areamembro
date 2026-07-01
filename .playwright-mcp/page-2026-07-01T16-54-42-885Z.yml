@@ -1,0 +1,111 @@
+- generic [active] [ref=f5e1]:
+  - complementary [ref=f5e2]:
+    - generic [ref=f5e3]:
+      - img "Blue Vision Co." [ref=f5e5]
+      - generic [ref=f5e6]:
+        - generic [ref=f5e7]: R
+        - generic [ref=f5e8]:
+          - generic [ref=f5e9]: Regular User
+          - generic [ref=f5e10]: user@example.com
+    - navigation [ref=f5e11]:
+      - generic [ref=f5e13]: Menu
+      - link "Dashboard" [ref=f5e14] [cursor=pointer]:
+        - /url: /panel/dashboard
+        - img [ref=f5e15]
+        - text: Dashboard
+      - link "Cursos" [ref=f5e17] [cursor=pointer]:
+        - /url: /panel/courses
+        - img [ref=f5e18]
+        - text: Cursos
+      - link "Membros" [ref=f5e20] [cursor=pointer]:
+        - /url: /panel/members
+        - img [ref=f5e21]
+        - text: Membros
+      - link "Planos" [ref=f5e23] [cursor=pointer]:
+        - /url: /panel/plans
+        - img [ref=f5e24]
+        - text: Planos
+      - link "Ebooks" [ref=f5e26] [cursor=pointer]:
+        - /url: /panel/ebooks
+        - img [ref=f5e27]
+        - text: Ebooks
+      - link "Configurações" [ref=f5e30] [cursor=pointer]:
+        - /url: /panel/settings
+        - img [ref=f5e31]
+        - text: Configurações
+      - link "Sair" [ref=f5e35] [cursor=pointer]:
+        - /url: /panel/logout
+        - img [ref=f5e36]
+        - text: Sair
+  - generic [ref=f5e38]:
+    - generic [ref=f5e39]:
+      - heading "Dashboard" [level=1] [ref=f5e40]
+      - link "Ver área de membros" [ref=f5e41] [cursor=pointer]:
+        - /url: http://localhost:5173/2
+    - main [ref=f5e42]:
+      - generic [ref=f5e46]:
+        - heading "Bem-vindo de volta! 👋" [level=2] [ref=f5e47]
+        - paragraph [ref=f5e48]: Gerencie seus cursos e acompanhe o progresso
+      - generic [ref=f5e49]:
+        - generic [ref=f5e52]:
+          - paragraph [ref=f5e53]: Receita
+          - paragraph [ref=f5e54]: R$ 0,00
+          - paragraph [ref=f5e55]: 0 vendas
+        - generic [ref=f5e56]:
+          - generic [ref=f5e57]:
+            - img [ref=f5e59]
+            - generic [ref=f5e61]:
+              - paragraph [ref=f5e62]: Usuários
+              - paragraph [ref=f5e63]: "1"
+          - paragraph [ref=f5e64]: De 1 total
+        - generic [ref=f5e65]:
+          - generic [ref=f5e66]:
+            - img [ref=f5e68]
+            - generic [ref=f5e70]:
+              - paragraph [ref=f5e71]: Assinantes
+              - paragraph [ref=f5e72]: "0"
+          - paragraph [ref=f5e73]: Planos ativos
+        - generic [ref=f5e74]:
+          - generic [ref=f5e75]:
+            - img [ref=f5e77]
+            - generic [ref=f5e79]:
+              - paragraph [ref=f5e80]: Conversão
+              - paragraph [ref=f5e81]: 0.0%
+          - paragraph [ref=f5e82]: Taxa de assinatura
+      - generic [ref=f5e83]:
+        - generic [ref=f5e84]:
+          - heading "Últimas Vendas" [level=2] [ref=f5e85]
+          - paragraph [ref=f5e86]: Transações recentes completadas
+        - generic [ref=f5e87]:
+          - img [ref=f5e88]
+          - paragraph [ref=f5e90]: Nenhuma venda registrada ainda
+      - generic [ref=f5e91]:
+        - generic [ref=f5e92]:
+          - generic [ref=f5e93]:
+            - heading "Cursos Recentes" [level=2] [ref=f5e94]
+            - paragraph [ref=f5e95]: Últimos cursos adicionados
+          - link "Ver todos" [ref=f5e96] [cursor=pointer]:
+            - /url: /panel/courses
+            - text: Ver todos
+            - img [ref=f5e97]
+        - link "aula teste dwadwdawdwa 📚 5 aulas Ativo" [ref=f5e100] [cursor=pointer]:
+          - /url: /panel/courses/4
+          - generic [ref=f5e102]:
+            - heading "aula teste" [level=3] [ref=f5e103]
+            - paragraph [ref=f5e104]: dwadwdawdwa
+            - generic [ref=f5e105]:
+              - generic [ref=f5e106]: 📚 5 aulas
+              - generic [ref=f5e107]: Ativo
+      - generic [ref=f5e108]:
+        - link "Novo Curso Criar um novo curso" [ref=f5e109] [cursor=pointer]:
+          - /url: /panel/courses/new
+          - img [ref=f5e112]
+          - generic [ref=f5e114]:
+            - generic [ref=f5e115]: Novo Curso
+            - generic [ref=f5e116]: Criar um novo curso
+        - link "Ver Cursos Gerenciar todos os cursos" [ref=f5e117] [cursor=pointer]:
+          - /url: /panel/courses
+          - img [ref=f5e119]
+          - generic [ref=f5e121]:
+            - generic [ref=f5e122]: Ver Cursos
+            - generic [ref=f5e123]: Gerenciar todos os cursos

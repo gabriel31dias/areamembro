@@ -1,0 +1,86 @@
+- generic [ref=f2e1]:
+  - complementary [ref=f2e2]:
+    - generic [ref=f2e3]:
+      - img [ref=f2e5]
+      - generic [ref=f2e6]:
+        - generic [ref=f2e7]: R
+        - generic [ref=f2e8]:
+          - generic [ref=f2e9]: Regular User
+          - generic [ref=f2e10]: user@example.com
+    - navigation [ref=f2e11]:
+      - generic [ref=f2e13]: Menu
+      - link [ref=f2e14] [cursor=pointer]:
+        - /url: /panel/dashboard
+        - img [ref=f2e15]
+        - text: Dashboard
+      - link [ref=f2e17] [cursor=pointer]:
+        - /url: /panel/courses
+        - img [ref=f2e18]
+        - text: Cursos
+      - link [ref=f2e20] [cursor=pointer]:
+        - /url: /panel/members
+        - img [ref=f2e21]
+        - text: Membros
+      - link [ref=f2e23] [cursor=pointer]:
+        - /url: /panel/plans
+        - img [ref=f2e24]
+        - text: Planos
+      - link [ref=f2e26] [cursor=pointer]:
+        - /url: /panel/ebooks
+        - img [ref=f2e27]
+        - text: Ebooks
+      - link [ref=f2e30] [cursor=pointer]:
+        - /url: /panel/settings
+        - img [ref=f2e31]
+        - text: Configurações
+      - link [ref=f2e35] [cursor=pointer]:
+        - /url: /panel/logout
+        - img [ref=f2e36]
+        - text: Sair
+  - generic [ref=f2e38]:
+    - heading [level=1] [ref=f2e40]: Cursos
+    - main [ref=f2e41]:
+      - generic [ref=f2e43]:
+        - generic [ref=f2e44]:
+          - img
+          - textbox [ref=f2e45]:
+            - /placeholder: Buscar por título ou descrição...
+        - generic [ref=f2e46]:
+          - generic [ref=f2e47]: "Status:"
+          - link [ref=f2e48] [cursor=pointer]:
+            - /url: /panel/courses
+            - text: Todos
+          - link [ref=f2e49] [cursor=pointer]:
+            - /url: /panel/courses?active=true
+            - text: ✓ Ativos
+          - link [ref=f2e50] [cursor=pointer]:
+            - /url: /panel/courses?active=false
+            - text: ✕ Inativos
+      - generic [ref=f2e52]:
+        - img [ref=f2e54]
+        - generic [ref=f2e56]: ✓
+        - generic [ref=f2e57]:
+          - heading [level=3] [ref=f2e58]: aula teste
+          - paragraph [ref=f2e59]: dwadwdawdwa
+          - generic [ref=f2e60]:
+            - generic [ref=f2e61]:
+              - generic [ref=f2e62]: Aulas
+              - generic [ref=f2e63]: "5"
+            - generic [ref=f2e65]:
+              - generic [ref=f2e66]: Alunos
+              - generic [ref=f2e67]: "1"
+          - generic [ref=f2e68]:
+            - link [ref=f2e69] [cursor=pointer]:
+              - /url: /panel/courses/4
+              - text: Ver
+            - link [ref=f2e70] [cursor=pointer]:
+              - /url: /panel/courses/4/edit
+              - text: Editar
+      - link [ref=f2e71] [cursor=pointer]:
+        - /url: /panel/courses/new
+        - img [ref=f2e72]
+  - dialog "Sucesso!" [ref=f2e75]:
+    - heading "Sucesso!" [level=2] [ref=f2e83]
+    - generic [ref=f2e84]: Login realizado com sucesso!
+    - text: "!"
+    - button "OK" [active] [ref=f2e86] [cursor=pointer]

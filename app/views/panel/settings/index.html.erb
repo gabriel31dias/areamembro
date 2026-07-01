@@ -126,6 +126,43 @@
         <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">Nome exibido para seus alunos no topo da área de membros.</p>
       </div>
 
+      <!-- Textos da tela de login -->
+      <div style="margin-bottom: 1.75rem; padding: 1.25rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;">
+        <p style="font-weight: 700; color: #0a0e27; margin-bottom: 1rem; font-size: 0.9375rem;">🔐 Textos da tela de login</p>
+
+        <div style="margin-bottom: 1.25rem;">
+          <%= f.label :login_title, "Título", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+          <%= f.text_field :login_title, placeholder: Theme::DEFAULT_LOGIN_TITLE, style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        </div>
+
+        <div>
+          <%= f.label :login_subtitle, "Subtítulo", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+          <%= f.text_field :login_subtitle, placeholder: Theme::DEFAULT_LOGIN_SUBTITLE, style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        </div>
+
+        <p style="margin-top: 0.75rem; font-size: 0.75rem; color: #64748b;">Título e subtítulo exibidos no formulário de login da sua área de membros.</p>
+
+        <div style="border-top: 1px solid #e2e8f0; margin: 1.25rem 0;"></div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div>
+            <%= f.label :hero_title, "Título de destaque (parte colorida)", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+            <%= f.text_field :hero_title, placeholder: Theme::DEFAULT_HERO_TITLE, style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+          </div>
+          <div>
+            <%= f.label :hero_highlight, "Última parte (branca)", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+            <%= f.text_field :hero_highlight, placeholder: Theme::DEFAULT_HERO_HIGHLIGHT, style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem; transition: all 0.2s;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :hero_subtitle, "Descrição de destaque (lado esquerdo)", style: "display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;" %>
+          <%= f.text_area :hero_subtitle, rows: 2, placeholder: Theme::DEFAULT_HERO_SUBTITLE, style: "width: 100%; padding: 0.875rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.9375rem; transition: all 0.2s; resize: vertical;", onfocus: "this.style.borderColor='#00d4ff'", onblur: "this.style.borderColor='#e2e8f0'" %>
+        </div>
+
+        <p style="margin-top: 0.75rem; font-size: 0.75rem; color: #64748b;">Textos grandes exibidos ao lado do formulário (visível em telas maiores).</p>
+      </div>
+
       <!-- Descrição primária (HTML) -->
       <div style="margin-bottom: 1.75rem;">
         <label style="display: block; font-weight: 600; color: #0a0e27; margin-bottom: 0.625rem; font-size: 0.875rem;">📝 Descrição primária</label>

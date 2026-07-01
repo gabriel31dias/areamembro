@@ -70,8 +70,14 @@ Rails.application.routes.draw do
       # Public plans listing
       resources :plans, only: [:index]
 
+      # Dashboard do member (resumo da área de membros)
+      resource :dashboard, only: [:show]
+
       # Tema da área de membros (cores do produtor do member)
       resource :theme, only: [:show]
+
+      # Estatísticas públicas da área de membros (para a tela de login)
+      get 'member_area_stats', to: 'member_area_stats#show'
 
       # Histórico de atividades do member
       resources :activities, only: [:index]

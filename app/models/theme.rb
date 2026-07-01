@@ -18,6 +18,13 @@ class Theme < ApplicationRecord
   DEFAULT_PRIMARY_DESCRIPTION = "Aprenda no seu ritmo. Evolua com prática.".freeze
   DEFAULT_SECONDARY_DESCRIPTION = "Consulte abaixo somente os cursos disponíveis para sua conta, carregados diretamente da plataforma.".freeze
 
+  DEFAULT_LOGIN_TITLE = "Bem-vindo de volta".freeze
+  DEFAULT_LOGIN_SUBTITLE = "Entre com suas credenciais para continuar seus estudos.".freeze
+
+  DEFAULT_HERO_TITLE = "Conhecimento técnico para".freeze
+  DEFAULT_HERO_HIGHLIGHT = "construir o futuro.".freeze
+  DEFAULT_HERO_SUBTITLE = "Acesse trilhas práticas, acompanhe sua evolução e transforme cada aula em progresso real para sua carreira.".freeze
+
   # Temas prontos (paletas harmônicas) para aplicar com 1 clique
   PRESETS = [
     # --- Masculinos (tons escuros e frios) ---
@@ -138,6 +145,11 @@ class Theme < ApplicationRecord
     self.member_area_title = DEFAULT_TITLE if member_area_title.blank?
     self.primary_description = DEFAULT_PRIMARY_DESCRIPTION if primary_description.blank?
     self.secondary_description = DEFAULT_SECONDARY_DESCRIPTION if secondary_description.blank?
+    self.login_title = DEFAULT_LOGIN_TITLE if login_title.blank?
+    self.login_subtitle = DEFAULT_LOGIN_SUBTITLE if login_subtitle.blank?
+    self.hero_title = DEFAULT_HERO_TITLE if hero_title.blank?
+    self.hero_highlight = DEFAULT_HERO_HIGHLIGHT if hero_highlight.blank?
+    self.hero_subtitle = DEFAULT_HERO_SUBTITLE if hero_subtitle.blank?
   end
 
   def acceptable_logo

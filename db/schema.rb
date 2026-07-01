@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
-  create_table "active_storage_attachments", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+ActiveRecord::Schema[8.1].define(version: 2026_07_01_150000) do
+  create_table "active_storage_attachments", id: :string, force: :cascade do |t|
+    t.string "blob_id", null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
-    t.bigint "record_id", null: false
+    t.string "record_id", null: false
     t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", force: :cascade do |t|
+  create_table "active_storage_blobs", id: :string, force: :cascade do |t|
     t.bigint "byte_size", null: false
     t.string "checksum"
     t.string "content_type"
@@ -33,13 +33,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+  create_table "active_storage_variant_records", id: :string, force: :cascade do |t|
+    t.string "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "activities", force: :cascade do |t|
+  create_table "activities", id: :string, force: :cascade do |t|
     t.string "activity_type", null: false
     t.datetime "created_at", null: false
     t.text "description"
@@ -47,58 +47,68 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
     t.datetime "occurred_at", null: false
     t.string "title"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.string "user_id", null: false
     t.index ["activity_type"], name: "index_activities_on_activity_type"
     t.index ["user_id", "occurred_at"], name: "index_activities_on_user_id_and_occurred_at"
     t.index ["user_id"], name: "index_activities_on_user_id"
   end
 
-  create_table "admins", force: :cascade do |t|
+  create_table "admins", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
     t.string "password_digest"
     t.datetime "updated_at", null: false
   end
 
-  create_table "certificates", force: :cascade do |t|
+  create_table "certificates", id: :string, force: :cascade do |t|
     t.string "code", null: false
-    t.integer "course_id", null: false
+    t.string "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "issued_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.string "user_id", null: false
     t.index ["code"], name: "index_certificates_on_code", unique: true
     t.index ["course_id"], name: "index_certificates_on_course_id"
     t.index ["user_id", "course_id"], name: "index_certificates_on_user_id_and_course_id", unique: true
     t.index ["user_id"], name: "index_certificates_on_user_id"
   end
 
-  create_table "course_progresses", force: :cascade do |t|
+  create_table "course_plans", id: :string, force: :cascade do |t|
+    t.string "course_id", null: false
+    t.datetime "created_at", null: false
+    t.string "plan_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id", "plan_id"], name: "index_course_plans_on_course_id_and_plan_id", unique: true
+    t.index ["course_id"], name: "index_course_plans_on_course_id"
+    t.index ["plan_id"], name: "index_course_plans_on_plan_id"
+  end
+
+  create_table "course_progresses", id: :string, force: :cascade do |t|
     t.integer "completed_lessons", default: 0
-    t.integer "course_id", null: false
+    t.string "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "last_accessed_at"
     t.decimal "percentage", precision: 5, scale: 2, default: "0.0"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.string "user_id", null: false
     t.index ["course_id"], name: "index_course_progresses_on_course_id"
     t.index ["user_id", "course_id"], name: "index_course_progresses_on_user_id_and_course_id", unique: true
     t.index ["user_id"], name: "index_course_progresses_on_user_id"
   end
 
-  create_table "courses", force: :cascade do |t|
+  create_table "courses", id: :string, force: :cascade do |t|
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.text "description"
     t.string "title", null: false
     t.integer "total_lessons", default: 0
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.string "user_id"
     t.index ["active"], name: "index_courses_on_active"
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
-  create_table "ebooks", force: :cascade do |t|
+  create_table "ebooks", id: :string, force: :cascade do |t|
     t.boolean "active", default: true
     t.string "author"
     t.datetime "created_at", null: false
@@ -106,26 +116,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
     t.integer "pages", default: 0
     t.string "title", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.string "user_id"
     t.index ["active"], name: "index_ebooks_on_active"
     t.index ["user_id"], name: "index_ebooks_on_user_id"
   end
 
-  create_table "lesson_progresses", force: :cascade do |t|
+  create_table "lesson_progresses", id: :string, force: :cascade do |t|
     t.boolean "completed", default: false
     t.datetime "completed_at"
     t.datetime "created_at", null: false
-    t.integer "lesson_id", null: false
+    t.string "lesson_id", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.string "user_id", null: false
     t.integer "watched_seconds", default: 0
     t.index ["lesson_id"], name: "index_lesson_progresses_on_lesson_id"
     t.index ["user_id", "lesson_id"], name: "index_lesson_progresses_on_user_id_and_lesson_id", unique: true
     t.index ["user_id"], name: "index_lesson_progresses_on_user_id"
   end
 
-  create_table "lessons", force: :cascade do |t|
-    t.integer "course_id", null: false
+  create_table "lessons", id: :string, force: :cascade do |t|
+    t.string "course_id", null: false
     t.datetime "created_at", null: false
     t.text "description"
     t.integer "duration_minutes", default: 0
@@ -137,7 +147,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
     t.index ["course_id"], name: "index_lessons_on_course_id"
   end
 
-  create_table "plans", force: :cascade do |t|
+  create_table "plans", id: :string, force: :cascade do |t|
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.text "description"
@@ -146,69 +156,74 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
     t.string "name", null: false
     t.decimal "price", precision: 10, scale: 2, null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.string "user_id"
     t.index ["active"], name: "index_plans_on_active"
     t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
-  create_table "question_options", force: :cascade do |t|
+  create_table "question_options", id: :string, force: :cascade do |t|
     t.boolean "correct", default: false
     t.datetime "created_at", null: false
-    t.integer "question_id", null: false
+    t.string "question_id", null: false
     t.string "text"
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_question_options_on_question_id"
   end
 
-  create_table "questions", force: :cascade do |t|
+  create_table "questions", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "order_number"
-    t.integer "quiz_id", null: false
+    t.string "quiz_id", null: false
     t.text "statement"
     t.datetime "updated_at", null: false
     t.index ["quiz_id"], name: "index_questions_on_quiz_id"
   end
 
-  create_table "quiz_attempts", force: :cascade do |t|
+  create_table "quiz_attempts", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "passed"
-    t.integer "quiz_id", null: false
+    t.string "quiz_id", null: false
     t.integer "score"
     t.datetime "submitted_at"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.string "user_id", null: false
     t.index ["quiz_id"], name: "index_quiz_attempts_on_quiz_id"
     t.index ["user_id"], name: "index_quiz_attempts_on_user_id"
   end
 
-  create_table "quizzes", force: :cascade do |t|
-    t.integer "course_id"
+  create_table "quizzes", id: :string, force: :cascade do |t|
+    t.string "course_id"
     t.datetime "created_at", null: false
-    t.integer "lesson_id"
+    t.string "lesson_id"
     t.integer "passing_score", default: 70
     t.string "title"
     t.datetime "updated_at", null: false
-    t.index ["lesson_id"], name: "index_quizzes_on_lesson_id"
+    t.index ["lesson_id"], name: "index_quizzes_on_lesson_id", unique: true
   end
 
-  create_table "sales", force: :cascade do |t|
+  create_table "sales", id: :string, force: :cascade do |t|
     t.decimal "amount", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.text "notes"
     t.string "payment_method"
-    t.integer "plan_id"
+    t.string "plan_id"
     t.string "status", default: "pending"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.string "user_id", null: false
     t.index ["created_at"], name: "index_sales_on_created_at"
     t.index ["plan_id"], name: "index_sales_on_plan_id"
     t.index ["status"], name: "index_sales_on_status"
     t.index ["user_id"], name: "index_sales_on_user_id"
   end
 
-  create_table "themes", force: :cascade do |t|
+  create_table "themes", id: :string, force: :cascade do |t|
     t.string "background_color", default: "#070a13"
     t.datetime "created_at", null: false
+    t.string "hero_highlight"
+    t.string "hero_subtitle"
+    t.string "hero_title"
+    t.string "login_subtitle"
+    t.string "login_title"
     t.string "member_area_title", default: "CATÁLOGO OFICIAL ALURADEV"
     t.string "muted_text_color", default: "#9ca3af"
     t.string "primary_color", default: "#6366f1"
@@ -218,34 +233,34 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
     t.string "surface_color", default: "#0e1424"
     t.string "text_color", default: "#f9fafb"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.string "user_id", null: false
     t.index ["user_id"], name: "index_themes_on_user_id", unique: true
   end
 
-  create_table "user_achievements", force: :cascade do |t|
+  create_table "user_achievements", id: :string, force: :cascade do |t|
     t.string "achievement_key", null: false
     t.datetime "created_at", null: false
     t.datetime "unlocked_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.string "user_id", null: false
     t.index ["user_id", "achievement_key"], name: "index_user_achievements_on_user_id_and_achievement_key", unique: true
     t.index ["user_id"], name: "index_user_achievements_on_user_id"
   end
 
-  create_table "user_plans", force: :cascade do |t|
+  create_table "user_plans", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "expires_at"
-    t.integer "plan_id", null: false
+    t.string "plan_id", null: false
     t.string "status", default: "active"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.string "user_id", null: false
     t.index ["expires_at"], name: "index_user_plans_on_expires_at"
     t.index ["plan_id"], name: "index_user_plans_on_plan_id"
     t.index ["user_id", "status"], name: "index_user_plans_on_user_id_and_status"
     t.index ["user_id"], name: "index_user_plans_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :string, force: :cascade do |t|
     t.string "api_key"
     t.string "api_secret"
     t.datetime "blocked_at"
@@ -253,7 +268,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.string "name"
-    t.integer "owner_id"
+    t.string "owner_id"
     t.string "password_digest", null: false
     t.string "role", null: false
     t.string "status", default: "active"
@@ -272,6 +287,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_14_120000) do
   add_foreign_key "activities", "users"
   add_foreign_key "certificates", "courses"
   add_foreign_key "certificates", "users"
+  add_foreign_key "course_plans", "courses"
+  add_foreign_key "course_plans", "plans"
   add_foreign_key "course_progresses", "courses"
   add_foreign_key "course_progresses", "users"
   add_foreign_key "courses", "users"

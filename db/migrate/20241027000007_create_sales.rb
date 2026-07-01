@@ -1,7 +1,7 @@
 class CreateSales < ActiveRecord::Migration[8.1]
   def change
-    create_table :sales do |t|
-      t.references :user, null: false, foreign_key: true
+    create_table :sales, id: :string do |t|
+      t.references :user, null: false, foreign_key: true, type: :string
       t.decimal :amount, precision: 10, scale: 2, null: false
       t.string :payment_method
       t.string :status, default: 'pending'

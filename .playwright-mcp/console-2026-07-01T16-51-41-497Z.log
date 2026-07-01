@@ -1,0 +1,2 @@
+[     176ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3000/assets/javascripts/infinite_scroll.js:0
+[     313ms] [ERROR] Error while trying to use the following icon from the Manifest: http://127.0.0.1:3000/logo.webp (Resource size is not correct - typo in the Manifest?) @ http://127.0.0.1:3000/panel/dashboard:0

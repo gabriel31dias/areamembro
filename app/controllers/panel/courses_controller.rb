@@ -24,6 +24,7 @@ module Panel
 
     def new
       @course = Course.new
+      @plans = current_panel_user.plans.order(price: :asc)
       # Inicia sem aulas, usuário adiciona com botão +
     end
 
@@ -37,11 +38,13 @@ module Panel
       if @course.save
         redirect_to panel_courses_path, notice: 'Curso criado com sucesso!'
       else
+        @plans = current_panel_user.plans.order(price: :asc)
         render :new, status: :unprocessable_entity
       end
     end
 
     def edit
+      @plans = current_panel_user.plans.order(price: :asc)
     end
 
     def update
@@ -52,6 +55,7 @@ module Panel
       if @course.update(course_params)
         redirect_to panel_course_path(@course), notice: 'Curso atualizado com sucesso!'
       else
+        @plans = current_panel_user.plans.order(price: :asc)
         render :edit, status: :unprocessable_entity
       end
     end
@@ -70,6 +74,7 @@ module Panel
     def course_params
       params.require(:course).permit(
         :title, :description, :total_lessons, :active,
+        plan_ids: [],
         lessons_attributes: [:id, :title, :description, :video_url, :video, :order_number, :duration_minutes, :_destroy]
       )
     end

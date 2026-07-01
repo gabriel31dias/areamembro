@@ -7,17 +7,23 @@ module Api
 
       def index
         # Member só enxerga os cursos do produtor (owner) ao qual pertence
-        courses = Course.active.where(user_id: @current_user.owner_id).order(created_at: :desc)
+        courses = Course.active
+                        .where(user_id: @current_user.owner_id)
+                        .includes(:plans)
+                        .order(created_at: :desc)
 
         courses_with_progress = courses.map do |course|
           progress = CourseProgress.find_by(user_id: @current_user.id, course_id: course.id)
-          
+          has_access = course.accessible_by?(@current_user)
+
           {
             id: course.id,
             title: course.title,
             description: course.description,
             photo_url: course.photo_url,
             total_lessons: course.total_lessons,
+            has_access: has_access,
+            plans: course.plans.map { |plan| { id: plan.id, name: plan.name } },
             progress: {
               completed_lessons: progress&.completed_lessons || 0,
               percentage: progress&.percentage || 0.0,
@@ -31,9 +37,14 @@ module Api
 
       def update_progress
         course = Course.find_by(id: params[:id])
-        
+
         unless course
           render json: { error: 'Course not found' }, status: :not_found
+          return
+        end
+
+        unless course.accessible_by?(@current_user)
+          render json: { error: 'Você não tem um plano compatível com este curso.', has_access: false }, status: :forbidden
           return
         end
 

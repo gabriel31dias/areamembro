@@ -1,0 +1,52 @@
+- main [ref=f10e3]:
+  - generic [ref=f10e4]:
+    - generic [ref=f10e6]:
+      - img "Logo da plataforma" [ref=f10e7]
+      - generic [ref=f10e8]:
+        - generic [ref=f10e9]:
+          - img [ref=f10e10]
+          - text: Sua próxima evolução começa aqui
+        - heading "Conhecimento técnico para construir o futuro." [level=1] [ref=f10e13]:
+          - text: Conhecimento técnico para
+          - generic [ref=f10e14]: construir o futuro.
+        - paragraph [ref=f10e15]: Acesse trilhas práticas, acompanhe sua evolução e transforme cada aula em progresso real para sua carreira.
+        - generic [ref=f10e16]:
+          - generic [ref=f10e17]:
+            - img [ref=f10e18]
+            - paragraph [ref=f10e20]: "+120"
+            - paragraph [ref=f10e21]: aulas práticas
+          - generic [ref=f10e22]:
+            - img [ref=f10e23]
+            - paragraph [ref=f10e26]: 24/7
+            - paragraph [ref=f10e27]: acesso contínuo
+          - generic [ref=f10e28]:
+            - img [ref=f10e29]
+            - paragraph [ref=f10e32]: 100%
+            - paragraph [ref=f10e33]: ambiente seguro
+      - paragraph [ref=f10e34]: Plataforma avançada de treinamento técnico-científico
+    - generic [ref=f10e37]:
+      - generic [ref=f10e38]:
+        - paragraph [ref=f10e39]: Área do membro
+        - heading "Acesse sua conta 🚀" [level=2] [ref=f10e40]
+        - paragraph [ref=f10e41]: Continue de onde parou.
+      - generic [ref=f10e42]:
+        - generic [ref=f10e43]:
+          - generic [ref=f10e44]: E-mail
+          - generic [ref=f10e45]:
+            - img
+            - textbox "E-mail" [ref=f10e46]:
+              - /placeholder: voce@exemplo.com
+        - generic [ref=f10e47]:
+          - generic [ref=f10e48]: Senha
+          - generic [ref=f10e49]:
+            - img
+            - textbox "Senha Mostrar senha" [ref=f10e50]:
+              - /placeholder: Digite sua senha
+            - button "Mostrar senha" [ref=f10e51]:
+              - img [ref=f10e52]
+        - button "Acessar plataforma" [ref=f10e55]:
+          - text: Acessar plataforma
+          - img [ref=f10e56]
+      - generic [ref=f10e58]:
+        - img [ref=f10e59]
+        - generic [ref=f10e62]: Conexão protegida e acesso exclusivo para membros

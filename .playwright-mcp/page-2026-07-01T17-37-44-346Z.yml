@@ -1,0 +1,301 @@
+- generic [active] [ref=f14e1]:
+  - complementary [ref=f14e2]:
+    - generic [ref=f14e3]:
+      - img "Blue Vision Co." [ref=f14e5]
+      - generic [ref=f14e6]:
+        - generic [ref=f14e7]: R
+        - generic [ref=f14e8]:
+          - generic [ref=f14e9]: Regular User
+          - generic [ref=f14e10]: user@example.com
+    - navigation [ref=f14e11]:
+      - generic [ref=f14e13]: Menu
+      - link "Dashboard" [ref=f14e14] [cursor=pointer]:
+        - /url: /panel/dashboard
+        - img [ref=f14e15]
+        - text: Dashboard
+      - link "Cursos" [ref=f14e17] [cursor=pointer]:
+        - /url: /panel/courses
+        - img [ref=f14e18]
+        - text: Cursos
+      - link "Membros" [ref=f14e20] [cursor=pointer]:
+        - /url: /panel/members
+        - img [ref=f14e21]
+        - text: Membros
+      - link "Planos" [ref=f14e23] [cursor=pointer]:
+        - /url: /panel/plans
+        - img [ref=f14e24]
+        - text: Planos
+      - link "Ebooks" [ref=f14e26] [cursor=pointer]:
+        - /url: /panel/ebooks
+        - img [ref=f14e27]
+        - text: Ebooks
+      - link "Configurações" [ref=f14e30] [cursor=pointer]:
+        - /url: /panel/settings
+        - img [ref=f14e31]
+        - text: Configurações
+      - link "Sair" [ref=f14e35] [cursor=pointer]:
+        - /url: /panel/logout
+        - img [ref=f14e36]
+        - text: Sair
+  - generic [ref=f14e38]:
+    - generic [ref=f14e39]:
+      - heading "Sistema" [level=1] [ref=f14e40]
+      - link "Ver área de membros" [ref=f14e41] [cursor=pointer]:
+        - /url: http://localhost:5173/2
+    - main [ref=f14e42]:
+      - generic [ref=f14e43]:
+        - generic [ref=f14e44]:
+          - heading "⚙️ Configurações" [level=1] [ref=f14e45]
+          - paragraph [ref=f14e46]: Configure suas credenciais de API para integração com HunterSub
+        - generic [ref=f14e47]:
+          - generic [ref=f14e48]:
+            - img [ref=f14e50]
+            - generic [ref=f14e52]:
+              - heading "Credenciais de API" [level=2] [ref=f14e53]
+              - paragraph [ref=f14e54]: Insira suas credenciais obtidas no HunterSub
+          - generic [ref=f14e55]:
+            - generic [ref=f14e56]:
+              - generic [ref=f14e57]: API Key (ID)
+              - textbox "API Key (ID)" [ref=f14e58]:
+                - /placeholder: Cole aqui sua API Key do HunterSub
+              - paragraph [ref=f14e59]: Identificador público da sua conta no HunterSub
+            - generic [ref=f14e60]:
+              - generic [ref=f14e61]: Secret Key
+              - textbox "Secret Key" [ref=f14e62]:
+                - /placeholder: Cole aqui sua Secret Key do HunterSub
+              - paragraph [ref=f14e63]: Chave secreta para autenticação (mantenha em segurança)
+            - generic [ref=f14e65]:
+              - img [ref=f14e66]
+              - generic [ref=f14e68]:
+                - generic [ref=f14e69]: Importante!
+                - generic [ref=f14e70]: Essas credenciais são obtidas no painel do HunterSub. Mantenha-as em segurança e não compartilhe com terceiros.
+            - button "💾 Salvar Configurações" [ref=f14e72] [cursor=pointer]
+        - generic [ref=f14e73]:
+          - generic [ref=f14e74]:
+            - img [ref=f14e76]
+            - generic [ref=f14e78]:
+              - heading "Tema da Área de Membros" [level=2] [ref=f14e79]
+              - paragraph [ref=f14e80]: Personalize as cores que seus alunos veem
+          - generic [ref=f14e81]:
+            - generic [ref=f14e82]:
+              - generic [ref=f14e83]: 📛 Título da área de membros
+              - textbox "📛 Título da área de membros" [ref=f14e84]:
+                - /placeholder: "Ex: Área de Membros, Academy, Escola..."
+                - text: Blue Vision Academy
+              - paragraph [ref=f14e85]: Nome exibido para seus alunos no topo da área de membros.
+            - generic [ref=f14e86]:
+              - paragraph [ref=f14e87]: 🔐 Textos da tela de login
+              - generic [ref=f14e88]:
+                - generic [ref=f14e89]: Título
+                - textbox "Título" [ref=f14e90]:
+                  - /placeholder: Bem-vindo de volta
+                  - text: Bem-vindo de volta
+              - generic [ref=f14e91]:
+                - generic [ref=f14e92]: Subtítulo
+                - textbox "Subtítulo" [ref=f14e93]:
+                  - /placeholder: Entre com suas credenciais para continuar seus estudos.
+                  - text: Entre com suas credenciais para continuar seus estudos.
+              - paragraph [ref=f14e94]: Título e subtítulo exibidos no formulário de login da sua área de membros.
+              - generic [ref=f14e96]:
+                - generic [ref=f14e97]: Título de destaque (lado esquerdo)
+                - textbox "Título de destaque (lado esquerdo)" [ref=f14e98]:
+                  - /placeholder: Conhecimento técnico para construir o futuro.
+                  - text: Conhecimento técnico para construir o futuro.
+              - generic [ref=f14e99]:
+                - generic [ref=f14e100]: Descrição de destaque (lado esquerdo)
+                - textbox "Descrição de destaque (lado esquerdo)" [ref=f14e101]:
+                  - /placeholder: Acesse trilhas práticas, acompanhe sua evolução e transforme cada aula em progresso real para sua carreira.
+                  - text: Acesse trilhas práticas, acompanhe sua evolução e transforme cada aula em progresso real para sua carreira. xx
+              - paragraph [ref=f14e102]: Textos grandes exibidos ao lado do formulário (visível em telas maiores).
+            - generic [ref=f14e103]:
+              - generic [ref=f14e104]: 📝 Descrição primária
+              - generic [ref=f14e106]:
+                - generic [ref=f14e107]:
+                  - button "Bold" [ref=f14e108] [cursor=pointer]
+                  - button "Italic" [ref=f14e109] [cursor=pointer]
+                  - button "Strikethrough" [ref=f14e110] [cursor=pointer]
+                  - button "Link" [ref=f14e111] [cursor=pointer]
+                - generic [ref=f14e112]:
+                  - button "Heading" [ref=f14e113] [cursor=pointer]
+                  - button "Quote" [ref=f14e114] [cursor=pointer]
+                  - button "Code" [ref=f14e115] [cursor=pointer]
+                  - button "Bullets" [ref=f14e116] [cursor=pointer]
+                  - button "Numbers" [ref=f14e117] [cursor=pointer]
+                  - button "Decrease Level" [disabled] [ref=f14e118]
+                  - button "Increase Level" [disabled] [ref=f14e119]
+                - button "Attach Files" [ref=f14e121] [cursor=pointer]
+                - generic [ref=f14e123]:
+                  - button "Undo" [disabled] [ref=f14e124]
+                  - button "Redo" [disabled] [ref=f14e125]
+              - textbox [ref=f14e126]:
+                - generic [ref=f14e127]: Aprenda no seu ritmo. Evolua com prática.
+              - paragraph [ref=f14e128]: Texto de destaque/boas-vindas. Aceita formatação (negrito, listas, links).
+            - generic [ref=f14e129]:
+              - generic [ref=f14e130]: 📄 Descrição secundária
+              - generic [ref=f14e132]:
+                - generic [ref=f14e133]:
+                  - button "Bold" [ref=f14e134] [cursor=pointer]
+                  - button "Italic" [ref=f14e135] [cursor=pointer]
+                  - button "Strikethrough" [ref=f14e136] [cursor=pointer]
+                  - button "Link" [ref=f14e137] [cursor=pointer]
+                - generic [ref=f14e138]:
+                  - button "Heading" [ref=f14e139] [cursor=pointer]
+                  - button "Quote" [ref=f14e140] [cursor=pointer]
+                  - button "Code" [ref=f14e141] [cursor=pointer]
+                  - button "Bullets" [ref=f14e142] [cursor=pointer]
+                  - button "Numbers" [ref=f14e143] [cursor=pointer]
+                  - button "Decrease Level" [ref=f14e144] [cursor=pointer]
+                  - button "Increase Level" [disabled] [ref=f14e145]
+                - button "Attach Files" [ref=f14e147] [cursor=pointer]
+                - generic [ref=f14e149]:
+                  - button "Undo" [disabled] [ref=f14e150]
+                  - button "Redo" [disabled] [ref=f14e151]
+              - textbox [ref=f14e152]:
+                - list [ref=f14e153]:
+                  - listitem [ref=f14e154]:
+                    - text: Consulte abaixo
+                    - text: somente os cursos disponíveis para sua
+              - paragraph [ref=f14e155]: Texto complementar (instruções, regras, etc.).
+            - generic [ref=f14e156]:
+              - generic [ref=f14e157]: 🖼️ Logo da área de membros
+              - generic [ref=f14e158]:
+                - img "Logo" [ref=f14e160]
+                - generic [ref=f14e161]:
+                  - button "Choose File" [ref=f14e162]
+                  - paragraph [ref=f14e163]: PNG, JPG, WEBP ou SVG (máx. 5MB). Recomendado fundo transparente.
+                  - generic [ref=f14e164] [cursor=pointer]:
+                    - checkbox "🗑️ Remover logo ao salvar" [ref=f14e165]
+                    - text: 🗑️ Remover logo ao salvar
+            - generic [ref=f14e166]:
+              - paragraph [ref=f14e167]: ✨ Temas prontos
+              - paragraph [ref=f14e168]: Masculinos
+              - generic [ref=f14e169]:
+                - button "Aa Aa Meia-Noite" [ref=f14e170] [cursor=pointer]:
+                  - generic [ref=f14e171]:
+                    - generic [ref=f14e174]: Aa
+                    - generic [ref=f14e175]: Aa
+                  - generic [ref=f14e176]: Meia-Noite
+                - button "Aa Aa Oceano" [ref=f14e177] [cursor=pointer]:
+                  - generic [ref=f14e178]:
+                    - generic [ref=f14e181]: Aa
+                    - generic [ref=f14e182]: Aa
+                  - generic [ref=f14e183]: Oceano
+                - button "Aa Aa Floresta" [ref=f14e184] [cursor=pointer]:
+                  - generic [ref=f14e185]:
+                    - generic [ref=f14e188]: Aa
+                    - generic [ref=f14e189]: Aa
+                  - generic [ref=f14e190]: Floresta
+              - paragraph [ref=f14e191]: Femininos
+              - generic [ref=f14e192]:
+                - button "Aa Aa Rosé" [ref=f14e193] [cursor=pointer]:
+                  - generic [ref=f14e194]:
+                    - generic [ref=f14e197]: Aa
+                    - generic [ref=f14e198]: Aa
+                  - generic [ref=f14e199]: Rosé
+                - button "Aa Aa Lavanda" [ref=f14e200] [cursor=pointer]:
+                  - generic [ref=f14e201]:
+                    - generic [ref=f14e204]: Aa
+                    - generic [ref=f14e205]: Aa
+                  - generic [ref=f14e206]: Lavanda
+                - button "Aa Aa Pêssego" [ref=f14e207] [cursor=pointer]:
+                  - generic [ref=f14e208]:
+                    - generic [ref=f14e211]: Aa
+                    - generic [ref=f14e212]: Aa
+                  - generic [ref=f14e213]: Pêssego
+              - paragraph [ref=f14e214]: Inspirados em designs famosos
+              - generic [ref=f14e215]:
+                - button "Aa Aa Dracula" [ref=f14e216] [cursor=pointer]:
+                  - generic [ref=f14e217]:
+                    - generic [ref=f14e220]: Aa
+                    - generic [ref=f14e221]: Aa
+                  - generic [ref=f14e222]: Dracula
+                - button "Aa Aa Nord" [ref=f14e223] [cursor=pointer]:
+                  - generic [ref=f14e224]:
+                    - generic [ref=f14e227]: Aa
+                    - generic [ref=f14e228]: Aa
+                  - generic [ref=f14e229]: Nord
+                - button "Aa Aa Tokyo Night" [ref=f14e230] [cursor=pointer]:
+                  - generic [ref=f14e231]:
+                    - generic [ref=f14e234]: Aa
+                    - generic [ref=f14e235]: Aa
+                  - generic [ref=f14e236]: Tokyo Night
+                - button "Aa Aa GitHub Dark" [ref=f14e237] [cursor=pointer]:
+                  - generic [ref=f14e238]:
+                    - generic [ref=f14e241]: Aa
+                    - generic [ref=f14e242]: Aa
+                  - generic [ref=f14e243]: GitHub Dark
+                - button "Aa Aa Spotify" [ref=f14e244] [cursor=pointer]:
+                  - generic [ref=f14e245]:
+                    - generic [ref=f14e248]: Aa
+                    - generic [ref=f14e249]: Aa
+                  - generic [ref=f14e250]: Spotify
+                - button "Aa Aa Discord" [ref=f14e251] [cursor=pointer]:
+                  - generic [ref=f14e252]:
+                    - generic [ref=f14e255]: Aa
+                    - generic [ref=f14e256]: Aa
+                  - generic [ref=f14e257]: Discord
+                - button "Aa Aa Stripe" [ref=f14e258] [cursor=pointer]:
+                  - generic [ref=f14e259]:
+                    - generic [ref=f14e262]: Aa
+                    - generic [ref=f14e263]: Aa
+                  - generic [ref=f14e264]: Stripe
+                - button "Aa Aa Material" [ref=f14e265] [cursor=pointer]:
+                  - generic [ref=f14e266]:
+                    - generic [ref=f14e269]: Aa
+                    - generic [ref=f14e270]: Aa
+                  - generic [ref=f14e271]: Material
+              - paragraph [ref=f14e272]: Clique em um tema para aplicar e depois salve. Você pode ajustar as cores manualmente abaixo.
+            - generic [ref=f14e273]:
+              - generic [ref=f14e274]:
+                - generic [ref=f14e275]: Cor Primária
+                - generic [ref=f14e276]:
+                  - textbox "Cor Primária" [ref=f14e277] [cursor=pointer]: "#1db954"
+                  - textbox [ref=f14e278]: "#1db954"
+              - generic [ref=f14e279]:
+                - generic [ref=f14e280]: Cor Secundária
+                - generic [ref=f14e281]:
+                  - textbox "Cor Secundária" [ref=f14e282] [cursor=pointer]: "#1ed760"
+                  - textbox [ref=f14e283]: "#1ed760"
+              - generic [ref=f14e284]:
+                - generic [ref=f14e285]: Cor de Fundo
+                - generic [ref=f14e286]:
+                  - textbox "Cor de Fundo" [ref=f14e287] [cursor=pointer]: "#121212"
+                  - textbox [ref=f14e288]: "#121212"
+              - generic [ref=f14e289]:
+                - generic [ref=f14e290]: Superfície (cards/sidebar)
+                - generic [ref=f14e291]:
+                  - textbox "Superfície (cards/sidebar)" [ref=f14e292] [cursor=pointer]: "#181818"
+                  - textbox [ref=f14e293]: "#181818"
+              - generic [ref=f14e294]:
+                - generic [ref=f14e295]: Cor do Texto
+                - generic [ref=f14e296]:
+                  - textbox "Cor do Texto" [ref=f14e297] [cursor=pointer]: "#ffffff"
+                  - textbox [ref=f14e298]: "#ffffff"
+              - generic [ref=f14e299]:
+                - generic [ref=f14e300]: Texto Secundário
+                - generic [ref=f14e301]:
+                  - textbox "Texto Secundário" [ref=f14e302] [cursor=pointer]: "#b3b3b3"
+                  - textbox [ref=f14e303]: "#b3b3b3"
+            - generic [ref=f14e304]:
+              - paragraph [ref=f14e305]: Pré-visualização
+              - generic [ref=f14e306]:
+                - generic [ref=f14e307]: Blue Vision Academy
+                - generic [ref=f14e308]:
+                  - generic [ref=f14e309]: Título do curso
+                  - generic [ref=f14e310]: Texto secundário · 12 aulas · 3h 20min
+                - generic [ref=f14e311]:
+                  - button "Botão primário" [ref=f14e312]
+                  - button "Secundário" [ref=f14e313]
+            - generic [ref=f14e314]:
+              - button "🎨 Salvar Tema" [ref=f14e315] [cursor=pointer]
+              - button "↺ Restaurar padrão" [ref=f14e316] [cursor=pointer]
+        - generic [ref=f14e317]:
+          - heading "Como obter suas credenciais" [level=3] [ref=f14e318]:
+            - img [ref=f14e319]
+            - text: Como obter suas credenciais
+          - generic [ref=f14e321]:
+            - paragraph [ref=f14e322]: 1. Acesse o painel do HunterSub
+            - paragraph [ref=f14e323]: 2. Vá em Configurações → API
+            - paragraph [ref=f14e324]: 3. Copie sua API Key e Secret Key
+            - paragraph [ref=f14e325]: 4. Cole aqui e salve
+            - paragraph [ref=f14e326]: 5. As vendas e assinaturas serão sincronizadas automaticamente

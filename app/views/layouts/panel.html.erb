@@ -696,7 +696,7 @@
     <!-- Main Wrapper -->
     <div class="main-wrapper">
       <!-- Top Bar -->
-      <div class="top-bar">
+      <div class="top-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
         <h1 class="page-title">
           <% if current_page?(panel_dashboard_path) || current_page?(panel_root_path) %>
             Dashboard
@@ -720,6 +720,11 @@
             Sistema
           <% end %>
         </h1>
+
+        <% frontend_url = "#{ENV.fetch("FRONTEND_URL", "http://localhost:5173")}/#{current_panel_user.id}" %>
+        <a href="<%= frontend_url %>" target="_blank" rel="noopener" class="btn btn-primary" style="white-space: nowrap;">
+          Ver área de membros
+        </a>
       </div>
 
       <!-- Main Content -->
